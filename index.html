@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>面接練習 / Latihan Wawancara | IJFA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">IJFA</div>
+    <div class="title">
+      <div class="ja">面接練習</div>
+      <div class="id">Latihan Wawancara</div>
+    </div>
+    <div id="idBadge" class="badge"></div>
+  </header>
+
+  <main>
+    <!-- ========== スタート画面 ========== -->
+    <section id="screenStart" class="screen">
+      <div class="card howto">
+        <h2>れんしゅうの しかた <span>Cara berlatih</span></h2>
+        <ol>
+          <li><b>しつもんを よむ</b><span>Baca pertanyaan (suarakan)</span></li>
+          <li><b>すぐに こえに だして こたえる</b><span>Langsung jawab dengan suara</span></li>
+          <li><b>じぶんで チェックする</b><span>Nilai sendiri dengan jujur</span></li>
+        </ol>
+        <p class="note">わからないときは「すみません、もういちど おねがいします」と いいましょう。<br>
+          <span>Kalau tidak paham, katakan "Sumimasen, mou ichido onegaishimasu".</span></p>
+      </div>
+
+      <h2 class="label">しつもんを えらぶ <span>Pilih pertanyaan</span></h2>
+      <div class="choices" id="modeChoices">
+        <button class="choice" data-mode="key">
+          <b>★ じゅうよう 10もん</b><span>10 pertanyaan penting</span>
+        </button>
+        <button class="choice" data-mode="all">
+          <b>ぜんぶ から ランダム</b><span>Acak dari semua (100)</span>
+        </button>
+        <button class="choice" data-mode="cat">
+          <b>カテゴリを えらぶ</b><span>Pilih kategori</span>
+        </button>
+      </div>
+
+      <div id="catBox" class="catbox hidden"></div>
+
+      <div id="countBox">
+        <h2 class="label">もんだいの かず <span>Jumlah soal</span></h2>
+        <div class="seg" id="countChoices">
+          <button data-count="5">5</button>
+          <button data-count="10">10</button>
+          <button data-count="20">20</button>
+        </div>
+      </div>
+
+      <button id="btnStart" class="btn primary big">はじめる <span>Mulai</span></button>
+
+      <div class="card history">
+        <h2>さいきんの きろく <span>Riwayat terbaru</span></h2>
+        <div id="historyList"></div>
+      </div>
+    </section>
+
+    <!-- ========== 練習画面 ========== -->
+    <section id="screenPractice" class="screen hidden">
+      <div class="progress">
+        <div class="bar"><div id="progressFill"></div></div>
+        <div id="progressText" class="ptext"></div>
+      </div>
+
+      <div class="card qcard">
+        <div id="qCat" class="qcat"></div>
+        <div id="qText" class="qtext"></div>
+        <div id="qTrans" class="qtrans hidden"></div>
+        <div class="timer"><span>こたえる じかん / Waktu</span> <b id="timer">0:00</b></div>
+      </div>
+
+      <div class="row">
+        <button id="btnTrans" class="btn sub">いみ を みる<span>Lihat arti</span></button>
+        <button id="btnHint" class="btn sub">ヒント<span>Petunjuk</span></button>
+      </div>
+      <div id="hintBox" class="card hint hidden"></div>
+
+      <button id="btnAnswered" class="btn primary big">こたえました <span>Sudah menjawab</span></button>
+
+      <div id="afterBox" class="hidden">
+        <div id="followBox" class="card follow hidden"></div>
+        <h2 class="label">じぶんで チェック <span>Nilai diri sendiri (jujur)</span></h2>
+        <div class="rate">
+          <button class="btn rate-good" data-rate="good">◎ いえた<span>Bisa menjawab</span></button>
+          <button class="btn rate-some" data-rate="some">△ すこし いえた<span>Sedikit bisa</span></button>
+          <button class="btn rate-ng" data-rate="ng">× いえなかった<span>Belum bisa</span></button>
+        </div>
+      </div>
+
+      <button id="btnQuit" class="btn link">やめる / Berhenti</button>
+    </section>
+
+    <!-- ========== 結果画面 ========== -->
+    <section id="screenResult" class="screen hidden">
+      <div class="card result">
+        <h2>おつかれさまでした！ <span>Kerja bagus!</span></h2>
+        <div class="score-grid">
+          <div class="good"><b id="rGood">0</b><span>◎ いえた</span></div>
+          <div class="some"><b id="rSome">0</b><span>△ すこし</span></div>
+          <div class="ng"><b id="rNg">0</b><span>× まだ</span></div>
+        </div>
+        <p id="rMsg" class="rmsg"></p>
+      </div>
+
+      <div id="reviewBox" class="card review"></div>
+
+      <button id="btnRetryNg" class="btn primary big">△× を もういちど <span>Ulangi soal △ dan ×</span></button>
+      <button id="btnAgain" class="btn sub big">あたらしく れんしゅう <span>Latihan baru</span></button>
+      <button id="btnHome" class="btn link">トップへ / Kembali ke awal</button>
+    </section>
+  </main>
+
+  <footer>IJFA Training Center ・ 誠実・礼儀・自律</footer>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
