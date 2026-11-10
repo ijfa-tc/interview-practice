@@ -168,6 +168,34 @@ h2 span, .label span { display: block; font-size: 13px; font-weight: 400; color:
 .variants li.now { background: var(--navy-soft); font-weight: 700; }
 .variants li.now::after { content: " ← いま / tadi"; font-weight: 400; font-size: 12px; color: var(--muted); }
 .variants .vmean { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+.variants li.playable { cursor: pointer; }
+.variants li.playable::before { content: "▶ "; color: var(--navy); }
+
+/* ---- 音声 ---- */
+.play {
+  display: block;
+  width: 100%;
+  min-height: 72px;
+  margin: 4px 0 12px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--navy);
+  color: #fff;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.play span { display: block; font-size: 13px; font-weight: 400; opacity: .9; }
+.play.playing { background: #2f5a8f; }
+.play:active { transform: scale(.98); }
+.qtext.covered { display: none; }
+
+.switch { display: flex; gap: 10px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; font-size: 15px; cursor: pointer; }
+.switch input { width: 22px; height: 22px; margin-top: 2px; flex: none; }
+.switch small { display: block; font-size: 12px; color: var(--muted); }
+.listen { margin: 8px 0 0; font-size: 15px; }
+.listen span { display: block; color: var(--muted); font-size: 13px; }
 
 .history .hitem { display: flex; justify-content: space-between; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
 .history .hitem:first-child { border-top: none; }

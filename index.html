@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>面接練習 / Latihan Wawancara | IJFA</title>
-  <link rel="stylesheet" href="style.css?v=20261110">
+  <link rel="stylesheet" href="style.css?v=20261110b">
 </head>
 <body>
   <header class="top">
@@ -67,6 +67,11 @@
         </div>
       </div>
 
+      <label class="switch" id="textFirstBox">
+        <input type="checkbox" id="textFirst">
+        <span>もじも さいしょから みせる<small>Tampilkan tulisan dari awal (tanpa latihan mendengar)</small></span>
+      </label>
+
       <button id="btnStart" class="btn primary big">はじめる <span>Mulai</span></button>
 
       <div class="card history">
@@ -84,15 +89,17 @@
 
       <div class="card qcard">
         <div id="qCat" class="qcat"></div>
+        <button id="btnPlay" class="play hidden">▶ もういちど きく<span>Dengar lagi</span></button>
         <div id="qText" class="qtext"></div>
         <div id="qTrans" class="qtrans hidden"></div>
         <div class="timer"><span>こたえる じかん / Waktu</span> <b id="timer">0:00</b></div>
       </div>
 
       <div class="row">
+        <button id="btnHint1" class="btn sub hidden">ヒント1 ひらがな<span>Petunjuk 1: tulisan</span></button>
         <button id="btnTrans" class="btn sub">いみ を みる<span>Lihat arti</span></button>
-        <button id="btnHint" class="btn sub">ヒント<span>Petunjuk</span></button>
       </div>
+      <button id="btnHint" class="btn sub">かんがえる ヒント<span>Petunjuk untuk berpikir</span></button>
       <div id="hintBox" class="card hint hidden"></div>
 
       <button id="btnAnswered" class="btn primary big">こたえました <span>Sudah menjawab</span></button>
@@ -134,7 +141,7 @@
 
   <footer>IJFA Training Center ・ 誠実・礼儀・自律</footer>
 
-  <script src="questions.js?v=20261110"></script>
-  <script src="app.js?v=20261110"></script>
+  <script src="questions.js?v=20261110b"></script>
+  <script src="app.js?v=20261110b"></script>
 </body>
 </html>

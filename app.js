@@ -9,6 +9,9 @@
   var VARIANTS = DATA.variants || {};
   var FLOW = DATA.flow;
   var STORAGE_KEY = "ijfa_interview_records";
+  var AUDIO = {};            // audio/audio.json：{ "001_0": "更新日", ... }
+  var player = new Audio();
+  var preloader = new Audio();
   var ID_PATTERN = /^[A-Z]{3}[0-9]{5}$/;
 
   var LEVELS = {
@@ -39,6 +42,8 @@
     startedAt: null,
     timerId: null,
     qStartedAt: 0,
+    hint: 0,            // 0=音声だけ 1=ひらがなを見た 2=意味も見た
+    plays: 0,
     lastSetup: null
   };
 
@@ -73,6 +78,40 @@
   // その質問の言い方ぜんぶ（0番 = もとの言い方）
   function allWays(q) { return [q.ja].concat(VARIANTS[q.id] || []); }
   function randomWay(q) { return Math.floor(Math.random() * allWays(q).length); }
+
+  // ---------- 音声 ----------
+  function audioKey(qid, v) { return qid + "_" + v; }
+  function audioSrc(qid, v) {
+    var k = audioKey(qid, v);
+    return AUDIO[k] ? "audio/" + k + ".mp3?v=" + encodeURIComponent(AUDIO[k]) : "";
+  }
+  function playAudio(src) {
+    if (!src) return;
+    try {
+      player.pause();
+      player.src = src;
+      $("btnPlay").classList.add("playing");
+      var p = player.play();
+      if (p && p.catch) p.catch(function () { $("btnPlay").classList.remove("playing"); });
+    } catch (e) { /* 再生できなくても練習は続けられる */ }
+  }
+  player.addEventListener("ended", function () { $("btnPlay").classList.remove("playing"); });
+  player.addEventListener("error", function () {
+    $("btnPlay").classList.remove("playing");
+    // 音声が読めなかったときは文字を出す
+    $("qText").classList.remove("covered");
+  });
+  function preloadNext() {
+    var nx = state.list[state.index + 1];
+    var src = nx ? audioSrc(nx.q.id, nx.v) : "";
+    if (src) { try { preloader.preload = "auto"; preloader.src = src; preloader.load(); } catch (e) {} }
+  }
+  try {
+    fetch("audio/audio.json?t=" + Date.now(), { cache: "no-cache" })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (j) { AUDIO = j || {}; })
+      .catch(function () {});
+  } catch (e) { /* 音声なしでも練習できる */ }
 
   function show(screen) {
     ["screenStart", "screenPractice", "screenResult"].forEach(function (s) {
@@ -272,7 +311,20 @@
     $("qText").textContent = allWays(q)[it.v];
     $("qTrans").textContent = q.id_;
     $("qTrans").classList.add("hidden");
-    $("btnTrans").innerHTML = "いみ を みる<span>Lihat arti</span>";
+
+    // 音声があれば「音声だけ → ヒント1 ひらがな → ヒント2 いみ」
+    var src = audioSrc(q.id, it.v);
+    var listenMode = !!src && !$("textFirst").checked;
+    it.audio = !!src;
+    state.hint = listenMode ? 0 : 1;
+    state.plays = 0;
+    $("btnPlay").classList.toggle("hidden", !src);
+    $("qText").classList.toggle("covered", listenMode);
+    $("btnHint1").classList.toggle("hidden", !listenMode);
+    $("btnTrans").classList.toggle("hidden", listenMode);
+    $("btnTrans").innerHTML = listenMode ? "ヒント2 いみ<span>Petunjuk 2: arti</span>" : "いみ を みる<span>Lihat arti</span>";
+    if (src) { playAudio(src); state.plays = 1; }
+    preloadNext();
 
     var hasHint = q.hints && q.hints.length > 0;
     $("btnHint").classList.toggle("hidden", !hasHint);
@@ -309,6 +361,8 @@
     var it = state.list[state.index];
     var q = it.q;
     $("btnAnswered").classList.add("hidden");
+    $("qText").classList.remove("covered");   // 答えたあとは文字を見て確かめる
+    $("btnHint1").classList.add("hidden");
 
     // ほかの聞き方
     var ways = allWays(q);
@@ -316,9 +370,14 @@
       $("variantBox").innerHTML =
         "<h2>おなじ いみの ききかた<span>Cara bertanya lain (artinya sama)</span></h2><ul>" +
         ways.map(function (w, i) {
-          return '<li class="' + (i === it.v ? "now" : "") + '">' + esc(w) + "</li>";
+          var cls = (i === it.v ? "now" : "") + (audioSrc(q.id, i) ? " playable" : "");
+          return '<li class="' + cls + '" data-v="' + i + '">' + esc(w) + "</li>";
         }).join("") +
-        '</ul><p class="vmean">いみ / Arti: ' + esc(q.id_) + "</p>";
+        '</ul><p class="vmean">いみ / Arti: ' + esc(q.id_) +
+        (ways.some(function (w, i) { return audioSrc(q.id, i); }) ? "<br>▶ をおすと きけます / Ketuk ▶ untuk mendengar" : "") + "</p>";
+      $("variantBox").querySelectorAll("li.playable").forEach(function (li) {
+        li.addEventListener("click", function () { playAudio(audioSrc(q.id, Number(li.dataset.v))); });
+      });
       $("variantBox").classList.remove("hidden");
     }
 
@@ -336,7 +395,8 @@
   function onRate(rate) {
     var it = state.list[state.index];
     var sec = Math.floor((Date.now() - state.qStartedAt) / 1000);
-    state.results.push({ qid: it.q.id, v: it.v, rate: rate, sec: sec });
+    state.results.push({ qid: it.q.id, v: it.v, rate: rate, sec: sec,
+      audio: !!it.audio, hint: state.hint, plays: state.plays });
     state.index++;
     if (state.index < state.list.length) {
       showQuestion();
@@ -349,6 +409,7 @@
   // ---------- 結果 ----------
   function finish() {
     stopTimer();
+    try { player.pause(); } catch (e) {}
     var good = 0, some = 0, ng = 0;
     state.results.forEach(function (r) {
       if (r.rate === "good") good++; else if (r.rate === "some") some++; else ng++;
@@ -371,6 +432,7 @@
         ng: ng,
         score: total ? Math.round((good * 2 + some) / (total * 2) * 100) : 0,
         durationSec: Math.round((now - state.startedAt) / 1000),
+        earOnly: state.results.filter(function (r) { return r.audio && r.hint === 0; }).length,
         items: state.results       // qid（質問番号）, v（言い方の番号）, rate, sec
       }
     };
@@ -384,6 +446,13 @@
     else if (good >= total / 2) msg = "いい ちょうしです。△× を もういちど れんしゅうしましょう。<span>Bagus. Ulangi soal △ dan ×.</span>";
     else msg = "まいにち すこしずつ。△× を もういちど やってみましょう。<span>Sedikit demi sedikit setiap hari. Ulangi soal △ dan ×.</span>";
     $("rMsg").innerHTML = msg;
+
+    var aud = state.results.filter(function (r) { return r.audio; });
+    var earOnly = aud.filter(function (r) { return r.hint === 0; }).length;
+    var lb = $("rListen");
+    if (!lb) { lb = document.createElement("p"); lb.id = "rListen"; lb.className = "listen"; $("rMsg").parentNode.appendChild(lb); }
+    lb.innerHTML = aud.length ? "おとだけで こたえた：" + earOnly + " / " + aud.length +
+      "<span>Menjawab hanya dengan mendengar</span>" : "";
 
     var weak = state.results.filter(function (r) { return r.rate !== "good"; });
     if (weak.length) {
@@ -420,9 +489,21 @@
   $("btnTrans").addEventListener("click", function () {
     var t = $("qTrans");
     t.classList.toggle("hidden");
+    if (!t.classList.contains("hidden")) state.hint = 2;
     this.innerHTML = t.classList.contains("hidden") ? "いみ を みる<span>Lihat arti</span>" : "いみ を かくす<span>Sembunyikan arti</span>";
   });
   $("btnHint").addEventListener("click", function () { $("hintBox").classList.toggle("hidden"); });
+  $("btnPlay").addEventListener("click", function () {
+    var it = state.list[state.index];
+    playAudio(audioSrc(it.q.id, it.v));
+    state.plays++;
+  });
+  $("btnHint1").addEventListener("click", function () {
+    $("qText").classList.remove("covered");
+    $("btnHint1").classList.add("hidden");
+    $("btnTrans").classList.remove("hidden");
+    if (state.hint < 1) state.hint = 1;
+  });
   $("btnAnswered").addEventListener("click", onAnswered);
   document.querySelectorAll(".rate .btn").forEach(function (b) {
     b.addEventListener("click", function () { onRate(b.dataset.rate); });
@@ -443,6 +524,7 @@
   $("btnHome").addEventListener("click", goHome);
 
   function goHome() {
+    try { player.pause(); } catch (e) {}
     renderHistory();
     show("screenStart");
   }
