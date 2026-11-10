@@ -1,13 +1,21 @@
 // =============================================================
-// 面接練習（ランダム質問） / Latihan Wawancara
-// 素のJavaScriptのみ。質問データは questions.js にあります。
+// 面接練習 / Latihan Wawancara
+// 素のJavaScriptのみ。質問・言い方・流れのデータは questions.js にあります。
 // =============================================================
 (function () {
   "use strict";
 
   var DATA = window.QUESTION_DATA;
+  var VARIANTS = DATA.variants || {};
+  var FLOW = DATA.flow;
   var STORAGE_KEY = "ijfa_interview_records";
   var ID_PATTERN = /^[A-Z]{3}[0-9]{5}$/;
+
+  var LEVELS = {
+    basic: { ja: "入門", note: "しつもんの じゅんばんは いつも おなじ。いいかた だけが かわります。<br><span>Urutan pertanyaan selalu sama. Hanya cara bertanya yang berubah.</span>" },
+    mid:   { ja: "初級", note: "しつもん・いいかた・ふかぼり しつもんが ランダムに かわります。<br><span>Pertanyaan, cara bertanya, dan pertanyaan lanjutan berubah secara acak.</span>" },
+    final: { ja: "直前", note: "じゅんばんも かわり、とつぜんの しつもんも でます。ほんばんと おなじ きもちで。<br><span>Urutan juga berubah dan ada pertanyaan mendadak. Anggap seperti wawancara asli.</span>" }
+  };
 
   // ---------- 生徒ID（URLの ?id=JKT16001） ----------
   var studentId = "";
@@ -21,12 +29,13 @@
 
   // ---------- 状態 ----------
   var state = {
-    mode: "key",        // key / all / cat
+    mode: "flow",       // flow / key / all / cat
+    level: "mid",       // basic / mid / final（flowのとき）
     count: 10,
-    cats: [],           // 選んだカテゴリ
-    list: [],           // 今回の質問
+    cats: [],
+    list: [],           // 今回の出題 { q, v, stage, surprise }
     index: 0,
-    results: [],        // { qid, rate }
+    results: [],        // { qid, v, rate, sec }
     startedAt: null,
     timerId: null,
     qStartedAt: 0,
@@ -48,6 +57,7 @@
     }
     return a;
   }
+  function pickOne(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
   function catOf(code) {
     for (var i = 0; i < DATA.categories.length; i++) {
       if (DATA.categories[i].cat === code) return DATA.categories[i];
@@ -60,6 +70,10 @@
     }
     return null;
   }
+  // その質問の言い方ぜんぶ（0番 = もとの言い方）
+  function allWays(q) { return [q.ja].concat(VARIANTS[q.id] || []); }
+  function randomWay(q) { return Math.floor(Math.random() * allWays(q).length); }
+
   function show(screen) {
     ["screenStart", "screenPractice", "screenResult"].forEach(function (s) {
       $(s).classList.toggle("hidden", s !== screen);
@@ -67,7 +81,6 @@
     window.scrollTo(0, 0);
   }
   function pad(n) { return (n < 10 ? "0" : "") + n; }
-  // 日本時間ではなく端末の時刻で「YYYY-MM-DD HH:MM:SS」
   function localStamp(d) {
     return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
       " " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
@@ -113,12 +126,22 @@
   }
 
   function renderModes() {
-    var btns = document.querySelectorAll("#modeChoices .choice");
-    btns.forEach(function (b) { b.classList.toggle("on", b.dataset.mode === state.mode); });
+    document.querySelectorAll("#modeChoices .choice").forEach(function (b) {
+      b.classList.toggle("on", b.dataset.mode === state.mode);
+    });
     $("catBox").classList.toggle("hidden", state.mode !== "cat");
-    $("countBox").classList.toggle("hidden", state.mode === "key");
+    $("countBox").classList.toggle("hidden", state.mode === "key" || state.mode === "flow");
+    $("levelBox").classList.toggle("hidden", state.mode !== "flow");
     if (state.mode === "cat") renderCats();
+    renderLevels();
     updateStartButton();
+  }
+
+  function renderLevels() {
+    document.querySelectorAll("#levelChoices button").forEach(function (b) {
+      b.classList.toggle("on", b.dataset.level === state.level);
+    });
+    $("levelNote").innerHTML = LEVELS[state.level].note;
   }
 
   function renderCounts() {
@@ -148,25 +171,68 @@
     }).join("");
   }
 
-  // ---------- 質問をえらぶ ----------
+  // ---------- 出題リストを作る ----------
+  function item(q, stage, surprise) {
+    return { q: q, v: randomWay(q), stage: stage || null, surprise: !!surprise };
+  }
+
+  // 面接の流れ：段階は固定、中身をランダムに
+  function buildFlow(level) {
+    var stages = FLOW.stages.slice();
+
+    // 直前：movable の段階だけ順番を入れかえる
+    if (level === "final") {
+      var idx = [], mov = [];
+      stages.forEach(function (s, i) { if (s.movable) { idx.push(i); mov.push(s); } });
+      mov = shuffle(mov);
+      idx.forEach(function (pos, k) { stages[pos] = mov[k]; });
+    }
+
+    var list = [];
+    stages.forEach(function (st) {
+      st.slots.forEach(function (slot) {
+        var prev = list.length ? list[list.length - 1].q.id : "";
+        if (slot.onlyAfter && slot.onlyAfter !== prev) return;
+        if (slot.chance && level !== "basic" && Math.random() >= slot.chance) return;
+        var id = (level === "basic") ? slot.from[0] : pickOne(slot.from);
+        var q = qById(id);
+        if (q) list.push(item(q, st));
+      });
+    });
+
+    // 直前：とつぜん質問を1つ、最初と最後以外のどこかに入れる
+    if (level === "final" && FLOW.surprise && list.length > 2) {
+      var used = list.map(function (it) { return it.q.id; });
+      var cand = FLOW.surprise.filter(function (id) { return used.indexOf(id) < 0; });
+      if (cand.length) {
+        var sq = qById(pickOne(cand));
+        var at = 2 + Math.floor(Math.random() * (list.length - 3));
+        if (sq) list.splice(at, 0, item(sq, null, true));
+      }
+    }
+    return list;
+  }
+
   function buildList(setup) {
     var pool;
+    if (setup.mode === "flow") return buildFlow(setup.level);
     if (setup.mode === "retry") {
-      return shuffle(setup.ids.map(qById).filter(Boolean));
+      return shuffle(setup.ids.map(qById).filter(Boolean)).map(function (q) { return item(q); });
     }
     if (setup.mode === "key") {
       pool = DATA.questions.filter(function (q) { return q.key; });
-      return shuffle(pool);
+      return shuffle(pool).map(function (q) { return item(q); });
     }
     if (setup.mode === "cat") {
       pool = DATA.questions.filter(function (q) { return setup.cats.indexOf(q.cat) >= 0; });
     } else {
       pool = DATA.questions.slice();
     }
-    return shuffle(pool).slice(0, setup.count);
+    return shuffle(pool).slice(0, setup.count).map(function (q) { return item(q); });
   }
 
   function modeLabel(setup) {
+    if (setup.mode === "flow") return "流れ・" + LEVELS[setup.level].ja;
     if (setup.mode === "key") return "重要10問";
     if (setup.mode === "retry") return "復習";
     if (setup.mode === "cat") return "カテゴリ";
@@ -186,15 +252,24 @@
 
   // ---------- 練習画面 ----------
   function showQuestion() {
-    var q = state.list[state.index];
+    var it = state.list[state.index];
+    var q = it.q;
     var total = state.list.length;
-    var c = catOf(q.cat);
 
     $("progressText").textContent = (state.index + 1) + " / " + total;
-    $("progressFill").style.width = ((state.index) / total * 100) + "%";
-    $("qCat").innerHTML = (q.key ? '<span class="star">★ じゅうよう</span> ・ ' : "") +
-      esc(c.ja) + " / " + esc(c.id_);
-    $("qText").textContent = q.ja;
+    $("progressFill").style.width = (state.index / total * 100) + "%";
+
+    var label;
+    if (it.surprise) {
+      label = '<span class="surprise">とつぜん しつもん！ / Pertanyaan mendadak!</span>';
+    } else if (it.stage) {
+      label = '<span class="stage">' + esc(it.stage.ja) + "</span>" + esc(it.stage.id_);
+    } else {
+      var c = catOf(q.cat);
+      label = (q.key ? '<span class="star">★ じゅうよう</span> ・ ' : "") + esc(c.ja) + " / " + esc(c.id_);
+    }
+    $("qCat").innerHTML = label;
+    $("qText").textContent = allWays(q)[it.v];
     $("qTrans").textContent = q.id_;
     $("qTrans").classList.add("hidden");
     $("btnTrans").innerHTML = "いみ を みる<span>Lihat arti</span>";
@@ -211,6 +286,7 @@
     $("btnAnswered").classList.remove("hidden");
     $("afterBox").classList.add("hidden");
     $("followBox").classList.add("hidden");
+    $("variantBox").classList.add("hidden");
 
     startTimer();
   }
@@ -230,9 +306,24 @@
 
   function onAnswered() {
     stopTimer();
-    var q = state.list[state.index];
+    var it = state.list[state.index];
+    var q = it.q;
     $("btnAnswered").classList.add("hidden");
-    if (q.followups && q.followups.length) {
+
+    // ほかの聞き方
+    var ways = allWays(q);
+    if (ways.length > 1) {
+      $("variantBox").innerHTML =
+        "<h2>おなじ いみの ききかた<span>Cara bertanya lain (artinya sama)</span></h2><ul>" +
+        ways.map(function (w, i) {
+          return '<li class="' + (i === it.v ? "now" : "") + '">' + esc(w) + "</li>";
+        }).join("") +
+        '</ul><p class="vmean">いみ / Arti: ' + esc(q.id_) + "</p>";
+      $("variantBox").classList.remove("hidden");
+    }
+
+    // 深掘り（ランダム練習のときだけ。流れでは次の質問として出る）
+    if (!it.stage && !it.surprise && q.followups && q.followups.length) {
       $("followBox").innerHTML = "<h2>つぎに きかれるかも<span>Mungkin ditanya lagi — coba jawab juga</span></h2><ul>" +
         q.followups.map(function (f) { return "<li>" + esc(f[0]) + "<span>" + esc(f[1]) + "</span></li>"; }).join("") +
         "</ul>";
@@ -243,9 +334,9 @@
   }
 
   function onRate(rate) {
-    var q = state.list[state.index];
+    var it = state.list[state.index];
     var sec = Math.floor((Date.now() - state.qStartedAt) / 1000);
-    state.results.push({ qid: q.id, rate: rate, sec: sec });
+    state.results.push({ qid: it.q.id, v: it.v, rate: rate, sec: sec });
     state.index++;
     if (state.index < state.list.length) {
       showQuestion();
@@ -264,22 +355,23 @@
     });
     var total = state.results.length;
     var now = new Date();
+    var setup = state.lastSetup;
 
     // 将来 GAS →「IJFA テスト結果DB」に送れる形
     var record = {
-      timestamp: localStamp(now),                 // 受験日時（端末の時刻）
-      timestampISO: now.toISOString(),            // 受験日時（世界標準時）
-      studentId: studentId,                       // 生徒ID（なければ空）
-      practiceName: DATA.practiceName,            // 練習名
-      result: {                                   // 結果
-        modeLabel: modeLabel(state.lastSetup),
+      timestamp: localStamp(now),
+      timestampISO: now.toISOString(),
+      studentId: studentId,
+      practiceName: setup.mode === "flow" ? FLOW.practiceName : DATA.practiceName,
+      result: {
+        modeLabel: modeLabel(setup),
         total: total,
         good: good,
         some: some,
         ng: ng,
         score: total ? Math.round((good * 2 + some) / (total * 2) * 100) : 0,
         durationSec: Math.round((now - state.startedAt) / 1000),
-        items: state.results
+        items: state.results       // qid（質問番号）, v（言い方の番号）, rate, sec
       }
     };
     saveRecord(record);
@@ -288,7 +380,7 @@
     $("rSome").textContent = some;
     $("rNg").textContent = ng;
     var msg;
-    if (ng === 0 && some === 0) msg = "ぜんぶ いえました！ つぎは ほかの しつもんにも ちょうせん。<span>Semua bisa! Coba pertanyaan lain juga.</span>";
+    if (ng === 0 && some === 0) msg = "ぜんぶ いえました！ つぎは レベルを あげてみましょう。<span>Semua bisa! Coba naikkan level.</span>";
     else if (good >= total / 2) msg = "いい ちょうしです。△× を もういちど れんしゅうしましょう。<span>Bagus. Ulangi soal △ dan ×.</span>";
     else msg = "まいにち すこしずつ。△× を もういちど やってみましょう。<span>Sedikit demi sedikit setiap hari. Ulangi soal △ dan ×.</span>";
     $("rMsg").innerHTML = msg;
@@ -299,7 +391,7 @@
         weak.map(function (r) {
           var q = qById(r.qid);
           return '<div class="ritem"><span class="mark ' + r.rate + '" style="display:inline">' +
-            (r.rate === "some" ? "△" : "×") + "</span> <b>" + esc(q.ja) + "</b><span>" + esc(q.id_) + "</span></div>";
+            (r.rate === "some" ? "△" : "×") + "</span> <b>" + esc(allWays(q)[r.v] || q.ja) + "</b><span>" + esc(q.id_) + "</span></div>";
         }).join("");
       $("reviewBox").classList.remove("hidden");
       $("btnRetryNg").classList.remove("hidden");
@@ -315,12 +407,16 @@
   document.querySelectorAll("#modeChoices .choice").forEach(function (b) {
     b.addEventListener("click", function () { state.mode = b.dataset.mode; renderModes(); });
   });
+  document.querySelectorAll("#levelChoices button").forEach(function (b) {
+    b.addEventListener("click", function () { state.level = b.dataset.level; renderLevels(); });
+  });
   document.querySelectorAll("#countChoices button").forEach(function (b) {
     b.addEventListener("click", function () { state.count = Number(b.dataset.count); renderCounts(); });
   });
-  $("btnStart").addEventListener("click", function () {
-    startPractice({ mode: state.mode, count: state.count, cats: state.cats.slice() });
-  });
+  function currentSetup() {
+    return { mode: state.mode, level: state.level, count: state.count, cats: state.cats.slice() };
+  }
+  $("btnStart").addEventListener("click", function () { startPractice(currentSetup()); });
   $("btnTrans").addEventListener("click", function () {
     var t = $("qTrans");
     t.classList.toggle("hidden");
@@ -343,9 +439,7 @@
     var ids = state.results.filter(function (r) { return r.rate !== "good"; }).map(function (r) { return r.qid; });
     startPractice({ mode: "retry", ids: ids });
   });
-  $("btnAgain").addEventListener("click", function () {
-    startPractice({ mode: state.mode, count: state.count, cats: state.cats.slice() });
-  });
+  $("btnAgain").addEventListener("click", function () { startPractice(currentSetup()); });
   $("btnHome").addEventListener("click", goHome);
 
   function goHome() {

@@ -156,6 +156,18 @@ h2 span, .label span { display: block; font-size: 13px; font-weight: 400; color:
   cursor: pointer;
 }
 .seg button.on { border-color: var(--navy); background: var(--navy); color: #fff; }
+#levelChoices button { font-size: 16px; line-height: 1.3; }
+#levelChoices small { display: block; font-size: 12px; font-weight: 400; opacity: .85; }
+#levelBox .note { margin: -8px 0 20px; }
+
+.stage { display: inline-block; background: var(--navy-soft); color: var(--navy); font-weight: 700; border-radius: 999px; padding: 2px 10px; margin-right: 6px; }
+.surprise { display: inline-block; background: #fff1d6; color: #9a5b00; font-weight: 700; border-radius: 999px; padding: 2px 10px; }
+.variants h2 { margin-bottom: 6px; }
+.variants ul { margin: 0; padding-left: 0; list-style: none; }
+.variants li { padding: 8px 10px; border-radius: 10px; margin-bottom: 6px; background: var(--bg); font-size: 15px; }
+.variants li.now { background: var(--navy-soft); font-weight: 700; }
+.variants li.now::after { content: " ← いま / tadi"; font-weight: 400; font-size: 12px; color: var(--muted); }
+.variants .vmean { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
 
 .history .hitem { display: flex; justify-content: space-between; gap: 8px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
 .history .hitem:first-child { border-top: none; }

@@ -32,6 +32,9 @@
 
       <h2 class="label">しつもんを えらぶ <span>Pilih pertanyaan</span></h2>
       <div class="choices" id="modeChoices">
+        <button class="choice" data-mode="flow">
+          <b>めんせつの ながれ（おすすめ）</b><span>Alur wawancara (disarankan)</span>
+        </button>
         <button class="choice" data-mode="key">
           <b>★ じゅうよう 10もん</b><span>10 pertanyaan penting</span>
         </button>
@@ -44,6 +47,16 @@
       </div>
 
       <div id="catBox" class="catbox hidden"></div>
+
+      <div id="levelBox" class="hidden">
+        <h2 class="label">レベル <span>Level</span></h2>
+        <div class="seg" id="levelChoices">
+          <button data-level="basic">にゅうもん<small>Pemula</small></button>
+          <button data-level="mid">しょきゅう<small>Dasar</small></button>
+          <button data-level="final">ちょくぜん<small>Siap tes</small></button>
+        </div>
+        <p id="levelNote" class="note"></p>
+      </div>
 
       <div id="countBox">
         <h2 class="label">もんだいの かず <span>Jumlah soal</span></h2>
@@ -85,6 +98,7 @@
       <button id="btnAnswered" class="btn primary big">こたえました <span>Sudah menjawab</span></button>
 
       <div id="afterBox" class="hidden">
+        <div id="variantBox" class="card variants hidden"></div>
         <div id="followBox" class="card follow hidden"></div>
         <h2 class="label">じぶんで チェック <span>Nilai diri sendiri (jujur)</span></h2>
         <div class="rate">
