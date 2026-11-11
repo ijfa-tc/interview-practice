@@ -1,6 +1,6 @@
 // =============================================================
 // 面接練習 / Latihan Wawancara
-// 素のJavaScriptのみ。質問・言い方・流れのデータは questions.js にあります。
+// 素のJavaScriptのみ。質問・言い方・流れ・職種のデータは questions.js にあります。
 // =============================================================
 (function () {
   "use strict";
@@ -8,17 +8,32 @@
   var DATA = window.QUESTION_DATA;
   var VARIANTS = DATA.variants || {};
   var FLOW = DATA.flow;
+  var JOBS = DATA.jobs || [];
   var STORAGE_KEY = "ijfa_interview_records";
   var AUDIO = {};            // audio/audio.json：{ "001_0": "更新日", ... }
   var player = new Audio();
   var preloader = new Audio();
   var ID_PATTERN = /^[A-Z]{3}[0-9]{5}$/;
 
-  var LEVELS = {
-    basic: { ja: "入門", note: "しつもんの じゅんばんは いつも おなじ。いいかた だけが かわります。<br><span>Urutan pertanyaan selalu sama. Hanya cara bertanya yang berubah.</span>" },
-    mid:   { ja: "初級", note: "しつもん・いいかた・ふかぼり しつもんが ランダムに かわります。<br><span>Pertanyaan, cara bertanya, dan pertanyaan lanjutan berubah secara acak.</span>" },
-    final: { ja: "直前", note: "じゅんばんも かわり、とつぜんの しつもんも でます。ほんばんと おなじ きもちで。<br><span>Urutan juga berubah dan ada pertanyaan mendadak. Anggap seperti wawancara asli.</span>" }
-  };
+  // ---------- ステップ（上から順番に進める） ----------
+  var STEPS = [
+    { n: 1, ja: "よく きかれる しつもん", id_: "Pertanyaan yang sering ditanya",
+      what: "じぶんの こたえを つくる", whatId: "Buat jawaban sendiri",
+      goal: "10もん ぜんぶ ◎", goalId: "Semua 10 soal ◎",
+      setup: { mode: "key" } },
+    { n: 2, ja: "めんせつの ながれ", id_: "Alur wawancara",
+      what: "じゅんばんを おぼえる", whatId: "Hafalkan urutan wawancara",
+      goal: "◎ が 8わり いじょう", goalId: "◎ minimal 80%",
+      setup: { mode: "flow", level: "basic" } },
+    { n: 3, ja: "いろいろな ききかた", id_: "Berbagai cara bertanya",
+      what: "しつもんも いいかたも かわる", whatId: "Pertanyaan & cara bertanya berubah",
+      goal: "おと だけで 7わり こたえる", goalId: "70% dijawab hanya dengan mendengar",
+      setup: { mode: "flow", level: "mid" } },
+    { n: 4, ja: "ほんばん れんしゅう", id_: "Latihan seperti wawancara asli",
+      what: "しょくしゅを えらんで ほんばんと おなじ形で", whatId: "Pilih bidang kerja, seperti wawancara asli",
+      goal: "めんせつの ひまで なんかいでも", goalId: "Ulangi sampai hari wawancara",
+      setup: { mode: "flow", level: "final" } }
+  ];
 
   // ---------- 生徒ID（URLの ?id=JKT16001） ----------
   var studentId = "";
@@ -32,13 +47,9 @@
 
   // ---------- 状態 ----------
   var state = {
-    mode: "flow",       // flow / key / all / cat
-    level: "mid",       // basic / mid / final（flowのとき）
-    count: 10,
-    cats: [],
-    list: [],           // 今回の出題 { q, v, stage, surprise }
+    list: [],           // 今回の出題 { q, v, stage, surprise, audio }
     index: 0,
-    results: [],        // { qid, v, rate, sec }
+    results: [],        // { qid, v, rate, sec, audio, hint, plays }
     startedAt: null,
     timerId: null,
     qStartedAt: 0,
@@ -73,6 +84,10 @@
     for (var i = 0; i < DATA.questions.length; i++) {
       if (DATA.questions[i].id === id) return DATA.questions[i];
     }
+    return null;
+  }
+  function jobById(id) {
+    for (var i = 0; i < JOBS.length; i++) { if (JOBS[i].id === id) return JOBS[i]; }
     return null;
   }
   // その質問の言い方ぜんぶ（0番 = もとの言い方）
@@ -114,7 +129,7 @@
   } catch (e) { /* 音声なしでも練習できる */ }
 
   function show(screen) {
-    ["screenStart", "screenPractice", "screenResult"].forEach(function (s) {
+    ["screenStart", "screenJob", "screenPractice", "screenResult"].forEach(function (s) {
       $(s).classList.toggle("hidden", s !== screen);
     });
     window.scrollTo(0, 0);
@@ -132,13 +147,45 @@
       return s ? JSON.parse(s) : [];
     } catch (e) { return []; }
   }
+  function myRecords() {
+    return loadRecords().filter(function (r) { return (r.studentId || "") === studentId; });
+  }
   function saveRecord(rec) {
     try {
       var all = loadRecords();
       all.push(rec);
-      if (all.length > 200) all = all.slice(all.length - 200);
+      if (all.length > 300) all = all.slice(all.length - 300);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
     } catch (e) { /* 保存できなくても練習は続けられる */ }
+  }
+
+  // ---------- クリア判定 ----------
+  function isClear(step, res) {
+    if (!res || !res.total) return false;
+    if (step === 1) return res.total >= 10 && res.good === res.total;
+    if (step === 2) return res.good / res.total >= 0.8;
+    if (step === 3) {
+      if (res.audioTotal) return res.earOnly / res.audioTotal >= 0.7;
+      return res.good / res.total >= 0.8;      // 音声がないときの代わり
+    }
+    return false;                               // STEP 4 はクリアなし
+  }
+  function stepStatus() {
+    var recs = myRecords();
+    var info = {};
+    STEPS.forEach(function (s) { info[s.n] = { clear: false, runs: 0, best: null }; });
+    recs.forEach(function (r) {
+      var res = r.result || {};
+      var n = res.step;
+      if (!info[n]) return;
+      info[n].runs++;
+      if (isClear(n, res)) info[n].clear = true;
+      var sc = res.total ? res.good / res.total : 0;
+      if (!info[n].best || sc > info[n].best.sc) info[n].best = { sc: sc, good: res.good, total: res.total };
+    });
+    var next = 4;
+    for (var i = 1; i <= 3; i++) { if (!info[i].clear) { next = i; break; } }
+    return { info: info, next: next };
   }
 
   // ---------- スタート画面 ----------
@@ -146,68 +193,57 @@
     $("idBadge").textContent = studentId ? "ID: " + studentId : "ID なし / Tanpa ID";
   }
 
-  function renderCats() {
-    var box = $("catBox");
+  function renderSteps() {
+    var st = stepStatus();
+    var box = $("stepList");
     box.innerHTML = "";
-    DATA.categories.forEach(function (c) {
-      var n = DATA.questions.filter(function (q) { return q.cat === c.cat; }).length;
+    STEPS.forEach(function (s) {
+      var inf = st.info[s.n];
+      var isNext = st.next === s.n;
+      var cls = "step" + (inf.clear ? " done" : "") + (isNext ? " next" : "");
+      var mark = inf.clear ? '<span class="mark">✓ クリア</span>' : (isNext ? '<span class="mark">▶ つぎは これ</span>' : "");
+      var prog = inf.runs
+        ? "さいこう ◎" + inf.best.good + "/" + inf.best.total + "・" + inf.runs + "かい"
+        : "まだ やっていません / Belum dicoba";
       var b = document.createElement("button");
-      b.className = "cat" + (state.cats.indexOf(c.cat) >= 0 ? " on" : "");
-      b.innerHTML = esc(c.ja) + "（" + n + "）<small>" + esc(c.id_) + "</small>";
-      b.addEventListener("click", function () {
-        var i = state.cats.indexOf(c.cat);
-        if (i >= 0) state.cats.splice(i, 1); else state.cats.push(c.cat);
-        renderCats();
-        updateStartButton();
-      });
+      b.className = cls;
+      b.innerHTML =
+        '<div class="shead"><span class="snum">STEP ' + s.n + "</span>" + mark + "</div>" +
+        '<div class="stitle">' + esc(s.ja) + "<small>" + esc(s.id_) + "</small></div>" +
+        '<div class="swhat">' + esc(s.what) + " / " + esc(s.whatId) + "</div>" +
+        '<div class="sgoal">めやす：' + esc(s.goal) + " / " + esc(s.goalId) + "</div>" +
+        '<div class="sprog">' + esc(prog) + "</div>";
+      b.addEventListener("click", function () { openStep(s.n); });
       box.appendChild(b);
     });
   }
 
-  function renderModes() {
-    document.querySelectorAll("#modeChoices .choice").forEach(function (b) {
-      b.classList.toggle("on", b.dataset.mode === state.mode);
+  function renderLast() {
+    var r = myRecords().slice(-1)[0];
+    if (!r) { $("lastRecord").innerHTML = ""; return; }
+    var res = r.result || {};
+    $("lastRecord").innerHTML = "さいごの れんしゅう / Terakhir： " + esc(r.timestamp.slice(5, 16)) + "　" +
+      esc(res.modeLabel || "") + "　◎" + (res.good || 0) + " △" + (res.some || 0) + " ×" + (res.ng || 0);
+  }
+
+  function openStep(n) {
+    if (n === 4) { renderJobs(); show("screenJob"); return; }
+    var s = STEPS[n - 1];
+    startPractice({ mode: s.setup.mode, level: s.setup.level, step: n });
+  }
+
+  function renderJobs() {
+    var box = $("jobList");
+    box.innerHTML = "";
+    JOBS.forEach(function (j) {
+      var b = document.createElement("button");
+      b.className = "choice";
+      b.innerHTML = "<b>" + esc(j.ja) + "</b><span>" + esc(j.id_) + "</span>";
+      b.addEventListener("click", function () {
+        startPractice({ mode: "flow", level: "final", step: 4, job: j.id });
+      });
+      box.appendChild(b);
     });
-    $("catBox").classList.toggle("hidden", state.mode !== "cat");
-    $("countBox").classList.toggle("hidden", state.mode === "key" || state.mode === "flow");
-    $("levelBox").classList.toggle("hidden", state.mode !== "flow");
-    if (state.mode === "cat") renderCats();
-    renderLevels();
-    updateStartButton();
-  }
-
-  function renderLevels() {
-    document.querySelectorAll("#levelChoices button").forEach(function (b) {
-      b.classList.toggle("on", b.dataset.level === state.level);
-    });
-    $("levelNote").innerHTML = LEVELS[state.level].note;
-  }
-
-  function renderCounts() {
-    document.querySelectorAll("#countChoices button").forEach(function (b) {
-      b.classList.toggle("on", Number(b.dataset.count) === state.count);
-    });
-  }
-
-  function updateStartButton() {
-    $("btnStart").disabled = (state.mode === "cat" && state.cats.length === 0);
-  }
-
-  function renderHistory() {
-    var list = loadRecords().filter(function (r) {
-      return !studentId || r.studentId === studentId;
-    }).slice(-5).reverse();
-    var box = $("historyList");
-    if (list.length === 0) {
-      box.innerHTML = '<p class="empty">まだ きろくが ありません。<br>Belum ada riwayat.</p>';
-      return;
-    }
-    box.innerHTML = list.map(function (r) {
-      var res = r.result || {};
-      return '<div class="hitem"><span class="hdate">' + esc(r.timestamp.slice(5, 16)) + "</span>" +
-        "<span>" + esc(res.modeLabel || "") + "</span>" +
-        "<span>◎" + (res.good || 0) + " △" + (res.some || 0) + " ×" + (res.ng || 0) + "</span></div>";
-    }).join("");
   }
 
   // ---------- 出題リストを作る ----------
@@ -216,7 +252,7 @@
   }
 
   // 面接の流れ：段階は固定、中身をランダムに
-  function buildFlow(level) {
+  function buildFlow(level, jobId) {
     var stages = FLOW.stages.slice();
 
     // 直前：movable の段階だけ順番を入れかえる
@@ -228,7 +264,19 @@
     }
 
     var list = [];
-    stages.forEach(function (st) {
+    stages.forEach(function (st, si) {
+      // 職種の質問は、しめくくりの前に入れる
+      if (si === stages.length - 1 && jobId) {
+        var job = jobById(jobId);
+        if (job) {
+          var used0 = list.map(function (it) { return it.q.id; });
+          var jstage = { ja: "しょくしゅの しつもん", id_: job.id_ };
+          shuffle(job.pool.filter(function (id) { return used0.indexOf(id) < 0; })).slice(0, 2).forEach(function (id) {
+            var jq = qById(id);
+            if (jq) list.push(item(jq, jstage));
+          });
+        }
+      }
       st.slots.forEach(function (slot) {
         var prev = list.length ? list[list.length - 1].q.id : "";
         if (slot.onlyAfter && slot.onlyAfter !== prev) return;
@@ -253,29 +301,24 @@
   }
 
   function buildList(setup) {
-    var pool;
-    if (setup.mode === "flow") return buildFlow(setup.level);
+    if (setup.mode === "flow") return buildFlow(setup.level, setup.job);
     if (setup.mode === "retry") {
       return shuffle(setup.ids.map(qById).filter(Boolean)).map(function (q) { return item(q); });
     }
     if (setup.mode === "key") {
-      pool = DATA.questions.filter(function (q) { return q.key; });
-      return shuffle(pool).map(function (q) { return item(q); });
+      return shuffle(DATA.questions.filter(function (q) { return q.key; })).map(function (q) { return item(q); });
     }
-    if (setup.mode === "cat") {
-      pool = DATA.questions.filter(function (q) { return setup.cats.indexOf(q.cat) >= 0; });
-    } else {
-      pool = DATA.questions.slice();
-    }
-    return shuffle(pool).slice(0, setup.count).map(function (q) { return item(q); });
+    // じゆう練習：100問からランダムに10問
+    return shuffle(DATA.questions.slice()).slice(0, 10).map(function (q) { return item(q); });
   }
 
   function modeLabel(setup) {
-    if (setup.mode === "flow") return "流れ・" + LEVELS[setup.level].ja;
-    if (setup.mode === "key") return "重要10問";
-    if (setup.mode === "retry") return "復習";
-    if (setup.mode === "cat") return "カテゴリ";
-    return "全体ランダム";
+    if (setup.step) {
+      var j = setup.job ? jobById(setup.job) : null;
+      return "STEP " + setup.step + (j ? "・" + j.ja : "");
+    }
+    if (setup.mode === "retry") return "ふくしゅう";
+    return "じゆう";
   }
 
   function startPractice(setup) {
@@ -314,7 +357,7 @@
 
     // 音声があれば「音声だけ → ヒント1 ひらがな → ヒント2 いみ」
     var src = audioSrc(q.id, it.v);
-    var listenMode = !!src && !$("textFirst").checked;
+    var listenMode = !!src;
     it.audio = !!src;
     state.hint = listenMode ? 0 : 1;
     state.plays = 0;
@@ -381,7 +424,7 @@
       $("variantBox").classList.remove("hidden");
     }
 
-    // 深掘り（ランダム練習のときだけ。流れでは次の質問として出る）
+    // 深掘り（流れ以外のとき。流れでは次の質問として出る）
     if (!it.stage && !it.surprise && q.followups && q.followups.length) {
       $("followBox").innerHTML = "<h2>つぎに きかれるかも<span>Mungkin ditanya lagi — coba jawab juga</span></h2><ul>" +
         q.followups.map(function (f) { return "<li>" + esc(f[0]) + "<span>" + esc(f[1]) + "</span></li>"; }).join("") +
@@ -417,14 +460,20 @@
     var total = state.results.length;
     var now = new Date();
     var setup = state.lastSetup;
+    var aud = state.results.filter(function (r) { return r.audio; });
+    var earOnly = aud.filter(function (r) { return r.hint === 0; }).length;
+    var step = setup.step || null;
+    var wasClear = step ? stepStatus().info[step].clear : false;
 
     // 将来 GAS →「IJFA テスト結果DB」に送れる形
     var record = {
       timestamp: localStamp(now),
       timestampISO: now.toISOString(),
       studentId: studentId,
-      practiceName: setup.mode === "flow" ? FLOW.practiceName : DATA.practiceName,
+      practiceName: step ? "面接練習 STEP" + step : (setup.mode === "retry" ? "面接練習 復習" : "面接練習 自由"),
       result: {
+        step: step,
+        job: setup.job || "",
         modeLabel: modeLabel(setup),
         total: total,
         good: good,
@@ -432,8 +481,9 @@
         ng: ng,
         score: total ? Math.round((good * 2 + some) / (total * 2) * 100) : 0,
         durationSec: Math.round((now - state.startedAt) / 1000),
-        earOnly: state.results.filter(function (r) { return r.audio && r.hint === 0; }).length,
-        items: state.results       // qid（質問番号）, v（言い方の番号）, rate, sec
+        audioTotal: aud.length,
+        earOnly: earOnly,
+        items: state.results       // qid（質問番号）, v（言い方の番号）, rate, sec, audio, hint, plays
       }
     };
     saveRecord(record);
@@ -442,17 +492,27 @@
     $("rSome").textContent = some;
     $("rNg").textContent = ng;
     var msg;
-    if (ng === 0 && some === 0) msg = "ぜんぶ いえました！ つぎは レベルを あげてみましょう。<span>Semua bisa! Coba naikkan level.</span>";
+    if (ng === 0 && some === 0) msg = "ぜんぶ いえました！<span>Semua bisa!</span>";
     else if (good >= total / 2) msg = "いい ちょうしです。△× を もういちど れんしゅうしましょう。<span>Bagus. Ulangi soal △ dan ×.</span>";
     else msg = "まいにち すこしずつ。△× を もういちど やってみましょう。<span>Sedikit demi sedikit setiap hari. Ulangi soal △ dan ×.</span>";
     $("rMsg").innerHTML = msg;
-
-    var aud = state.results.filter(function (r) { return r.audio; });
-    var earOnly = aud.filter(function (r) { return r.hint === 0; }).length;
-    var lb = $("rListen");
-    if (!lb) { lb = document.createElement("p"); lb.id = "rListen"; lb.className = "listen"; $("rMsg").parentNode.appendChild(lb); }
-    lb.innerHTML = aud.length ? "おとだけで こたえた：" + earOnly + " / " + aud.length +
+    $("rListen").innerHTML = aud.length ? "おとだけで こたえた：" + earOnly + " / " + aud.length +
       "<span>Menjawab hanya dengan mendengar</span>" : "";
+
+    // クリア表示
+    var clearNow = step && isClear(step, record.result);
+    $("rClear").classList.toggle("hidden", !clearNow);
+    if (clearNow) {
+      $("rClear").innerHTML = "STEP " + step + " クリア！<span>STEP " + step + " selesai!</span>";
+    }
+    $("btnNext").classList.toggle("hidden", !(clearNow && step < 4));
+    if (step && step < 4 && !clearNow) {
+      var s = STEPS[step - 1];
+      $("rGoal").innerHTML = (wasClear ? "クリアずみ / Sudah selesai。" : "") +
+        "クリアの めやす：" + esc(s.goal) + "<span>Target: " + esc(s.goalId) + "</span>";
+    } else {
+      $("rGoal").innerHTML = "";
+    }
 
     var weak = state.results.filter(function (r) { return r.rate !== "good"; });
     if (weak.length) {
@@ -473,24 +533,12 @@
   }
 
   // ---------- ボタン ----------
-  document.querySelectorAll("#modeChoices .choice").forEach(function (b) {
-    b.addEventListener("click", function () { state.mode = b.dataset.mode; renderModes(); });
-  });
-  document.querySelectorAll("#levelChoices button").forEach(function (b) {
-    b.addEventListener("click", function () { state.level = b.dataset.level; renderLevels(); });
-  });
-  document.querySelectorAll("#countChoices button").forEach(function (b) {
-    b.addEventListener("click", function () { state.count = Number(b.dataset.count); renderCounts(); });
-  });
-  function currentSetup() {
-    return { mode: state.mode, level: state.level, count: state.count, cats: state.cats.slice() };
-  }
-  $("btnStart").addEventListener("click", function () { startPractice(currentSetup()); });
+  $("btnFree").addEventListener("click", function () { startPractice({ mode: "all" }); });
+  $("btnJobBack").addEventListener("click", goHome);
   $("btnTrans").addEventListener("click", function () {
     var t = $("qTrans");
     t.classList.toggle("hidden");
     if (!t.classList.contains("hidden")) state.hint = 2;
-    this.innerHTML = t.classList.contains("hidden") ? "いみ を みる<span>Lihat arti</span>" : "いみ を かくす<span>Sembunyikan arti</span>";
   });
   $("btnHint").addEventListener("click", function () { $("hintBox").classList.toggle("hidden"); });
   $("btnPlay").addEventListener("click", function () {
@@ -520,18 +568,26 @@
     var ids = state.results.filter(function (r) { return r.rate !== "good"; }).map(function (r) { return r.qid; });
     startPractice({ mode: "retry", ids: ids });
   });
-  $("btnAgain").addEventListener("click", function () { startPractice(currentSetup()); });
+  $("btnAgain").addEventListener("click", function () {
+    var s = state.lastSetup;
+    startPractice({ mode: s.mode, level: s.level, step: s.step, job: s.job, ids: s.ids });
+  });
+  $("btnNext").addEventListener("click", function () {
+    var n = (state.lastSetup.step || 0) + 1;
+    if (n <= 4) openStep(n);
+  });
   $("btnHome").addEventListener("click", goHome);
 
   function goHome() {
     try { player.pause(); } catch (e) {}
-    renderHistory();
+    stopTimer();
+    renderSteps();
+    renderLast();
     show("screenStart");
   }
 
   // ---------- 初期表示 ----------
   renderBadge();
-  renderModes();
-  renderCounts();
-  renderHistory();
+  renderSteps();
+  renderLast();
 })();

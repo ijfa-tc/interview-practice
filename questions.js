@@ -24,7 +24,8 @@ window.QUESTION_DATA = {
     { cat: "c09", ja: "語学・学習", id_: "Bahasa & pembelajaran" },
     { cat: "c10", ja: "健康・体力・実技", id_: "Kesehatan, stamina & tes praktik" },
     { cat: "c11", ja: "食事・宗教・嗜好", id_: "Makanan, agama & kebiasaan" },
-    { cat: "c12", ja: "面接のしめくくり", id_: "Penutup wawancara" }
+    { cat: "c12", ja: "面接のしめくくり", id_: "Penutup wawancara" },
+    { cat: "c13", ja: "職種別の質問", id_: "Pertanyaan per bidang kerja" }
   ],
 
   questions: [
@@ -278,7 +279,37 @@ window.QUESTION_DATA = {
         ["しつもんを1つ、じゅんびしておく", "Siapkan satu pertanyaan."],
         ["れい：しごとのないよう、きょういく、せいかつ", "Contoh: isi pekerjaan, pelatihan, kehidupan."],
         ["「とくにありません」だけで おわらない", "Jangan hanya menjawab \"tidak ada\"."]
-      ] }
+      ] },
+
+    // ---- 職種別の質問（社内の面接記録から） ----
+    { id: "102", cat: "c13", ja: "にほんのなつは、とてもあついですが、だいじょうぶですか？", id_: "Musim panas di Jepang sangat panas. Apakah Anda tidak masalah?" },
+    { id: "103", cat: "c13", ja: "たかいところで、しごとをしたことはありますか？", id_: "Apakah Anda pernah bekerja di tempat tinggi?" },
+    { id: "104", cat: "c13", ja: "４メートルから１０メートルくらいの、たかいところでしごとをしますが、だいじょうぶですか？", id_: "Anda akan bekerja di ketinggian sekitar 4 sampai 10 meter. Apakah Anda tidak masalah?" },
+    { id: "105", cat: "c13", ja: "ぶたにくのせいひんを、てぶくろをしてさわるのは、だいじょうぶですか？", id_: "Apakah Anda tidak masalah menyentuh produk daging babi dengan sarung tangan?" },
+    { id: "106", cat: "c13", ja: "アルコールのしょうどくえきを、つかったことはありますか？", id_: "Apakah Anda pernah memakai cairan disinfektan beralkohol?" },
+    { id: "107", cat: "c13", ja: "えいごはできますか？", id_: "Apakah Anda bisa berbahasa Inggris?" },
+    { id: "108", cat: "c13", ja: "このしごとには、どんなイメージがありますか？", id_: "Apa gambaran Anda tentang pekerjaan ini?" },
+    { id: "109", cat: "c13", ja: "のうぎょうのけいけんを、おしえてください。", id_: "Ceritakan pengalaman Anda di bidang pertanian." }
+  ],
+
+  // =============================================================
+  // 職種 / Bidang kerja（STEP 4 で選ぶ）
+  //   pool の中から2〜3問が、面接の流れの最後のほうに入ります。
+  //   職種や質問をふやすときは、ここに足します。
+  // =============================================================
+  jobs: [
+    { id: "kensetsu",  ja: "けんせつ",                 id_: "Konstruksi",
+      pool: ["102", "103", "104", "086", "089"] },
+    { id: "shokuhin",  ja: "しょくひん せいぞう",        id_: "Pengolahan makanan",
+      pool: ["105", "106", "088", "060", "097"] },
+    { id: "shukuhaku", ja: "しゅくはく・ビルクリーニング", id_: "Perhotelan & pembersihan gedung",
+      pool: ["107", "108", "060", "064", "067"] },
+    { id: "seizou",    ja: "せいぞう（ようせつ・とそう など）", id_: "Manufaktur (las, cat, dll.)",
+      pool: ["049", "051", "061", "062", "063"] },
+    { id: "nougyou",   ja: "のうぎょう",               id_: "Pertanian",
+      pool: ["109", "068", "086", "060"] },
+    { id: "ippan",     ja: "まだ きまっていない",        id_: "Belum ditentukan (pertanyaan umum)",
+      pool: ["086", "060", "061", "062", "102"] }
   ],
 
   // =============================================================

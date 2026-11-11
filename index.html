@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>面接練習 / Latihan Wawancara | IJFA</title>
-  <link rel="stylesheet" href="style.css?v=20261110b">
+  <link rel="stylesheet" href="style.css?v=20261111">
 </head>
 <body>
   <header class="top">
@@ -19,65 +19,25 @@
   <main>
     <!-- ========== スタート画面 ========== -->
     <section id="screenStart" class="screen">
-      <div class="card howto">
-        <h2>れんしゅうの しかた <span>Cara berlatih</span></h2>
-        <ol>
-          <li><b>しつもんを よむ</b><span>Baca pertanyaan (suarakan)</span></li>
-          <li><b>すぐに こえに だして こたえる</b><span>Langsung jawab dengan suara</span></li>
-          <li><b>じぶんで チェックする</b><span>Nilai sendiri dengan jujur</span></li>
-        </ol>
-        <p class="note">わからないときは「すみません、もういちど おねがいします」と いいましょう。<br>
-          <span>Kalau tidak paham, katakan "Sumimasen, mou ichido onegaishimasu".</span></p>
-      </div>
+      <p class="howline">きく → こたえる → チェック<span>Dengar → Jawab → Nilai sendiri</span></p>
 
-      <h2 class="label">しつもんを えらぶ <span>Pilih pertanyaan</span></h2>
-      <div class="choices" id="modeChoices">
-        <button class="choice" data-mode="flow">
-          <b>めんせつの ながれ（おすすめ）</b><span>Alur wawancara (disarankan)</span>
-        </button>
-        <button class="choice" data-mode="key">
-          <b>★ じゅうよう 10もん</b><span>10 pertanyaan penting</span>
-        </button>
-        <button class="choice" data-mode="all">
-          <b>ぜんぶ から ランダム</b><span>Acak dari semua (100)</span>
-        </button>
-        <button class="choice" data-mode="cat">
-          <b>カテゴリを えらぶ</b><span>Pilih kategori</span>
-        </button>
-      </div>
+      <div id="stepList" class="steps"></div>
 
-      <div id="catBox" class="catbox hidden"></div>
+      <button id="btnFree" class="free">
+        <b>じゆう れんしゅう</b><span>Latihan bebas · 10 soal acak dari 100</span>
+      </button>
 
-      <div id="levelBox" class="hidden">
-        <h2 class="label">レベル <span>Level</span></h2>
-        <div class="seg" id="levelChoices">
-          <button data-level="basic">にゅうもん<small>Pemula</small></button>
-          <button data-level="mid">しょきゅう<small>Dasar</small></button>
-          <button data-level="final">ちょくぜん<small>Siap tes</small></button>
-        </div>
-        <p id="levelNote" class="note"></p>
-      </div>
+      <p class="tip">わからないときは「すみません、もういちど おねがいします」<br>
+        <span>Kalau tidak paham: "Sumimasen, mou ichido onegaishimasu"</span></p>
 
-      <div id="countBox">
-        <h2 class="label">もんだいの かず <span>Jumlah soal</span></h2>
-        <div class="seg" id="countChoices">
-          <button data-count="5">5</button>
-          <button data-count="10">10</button>
-          <button data-count="20">20</button>
-        </div>
-      </div>
+      <div id="lastRecord" class="lastrec"></div>
+    </section>
 
-      <label class="switch" id="textFirstBox">
-        <input type="checkbox" id="textFirst">
-        <span>もじも さいしょから みせる<small>Tampilkan tulisan dari awal (tanpa latihan mendengar)</small></span>
-      </label>
-
-      <button id="btnStart" class="btn primary big">はじめる <span>Mulai</span></button>
-
-      <div class="card history">
-        <h2>さいきんの きろく <span>Riwayat terbaru</span></h2>
-        <div id="historyList"></div>
-      </div>
+    <!-- ========== 職種をえらぶ（STEP 4） ========== -->
+    <section id="screenJob" class="screen hidden">
+      <h2 class="label">しょくしゅを えらぶ <span>Pilih bidang kerja</span></h2>
+      <div id="jobList" class="choices"></div>
+      <button id="btnJobBack" class="btn link">もどる / Kembali</button>
     </section>
 
     <!-- ========== 練習画面 ========== -->
@@ -120,6 +80,7 @@
 
     <!-- ========== 結果画面 ========== -->
     <section id="screenResult" class="screen hidden">
+      <div id="rClear" class="clear hidden"></div>
       <div class="card result">
         <h2>おつかれさまでした！ <span>Kerja bagus!</span></h2>
         <div class="score-grid">
@@ -128,12 +89,15 @@
           <div class="ng"><b id="rNg">0</b><span>× まだ</span></div>
         </div>
         <p id="rMsg" class="rmsg"></p>
+        <p id="rListen" class="listen"></p>
+        <p id="rGoal" class="goal"></p>
       </div>
 
       <div id="reviewBox" class="card review"></div>
 
+      <button id="btnNext" class="btn primary big hidden">つぎの STEP へ <span>Lanjut ke STEP berikutnya</span></button>
       <button id="btnRetryNg" class="btn primary big">△× を もういちど <span>Ulangi soal △ dan ×</span></button>
-      <button id="btnAgain" class="btn sub big">あたらしく れんしゅう <span>Latihan baru</span></button>
+      <button id="btnAgain" class="btn sub big">もういちど おなじ れんしゅう <span>Ulangi latihan yang sama</span></button>
       <button id="btnHome" class="btn link">トップへ / Kembali ke awal</button>
       <a class="btn sub big" href="https://ijfa-tc.github.io/learning-portal/">ポータルへ もどる <span>Kembali ke portal</span></a>
     </section>
@@ -141,7 +105,7 @@
 
   <footer>IJFA Training Center ・ 誠実・礼儀・自律</footer>
 
-  <script src="questions.js?v=20261110b"></script>
-  <script src="app.js?v=20261110b"></script>
+  <script src="questions.js?v=20261111"></script>
+  <script src="app.js?v=20261111"></script>
 </body>
 </html>
