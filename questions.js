@@ -289,27 +289,39 @@ window.QUESTION_DATA = {
     { id: "106", cat: "c13", ja: "アルコールのしょうどくえきを、つかったことはありますか？", id_: "Apakah Anda pernah memakai cairan disinfektan beralkohol?" },
     { id: "107", cat: "c13", ja: "えいごはできますか？", id_: "Apakah Anda bisa berbahasa Inggris?" },
     { id: "108", cat: "c13", ja: "このしごとには、どんなイメージがありますか？", id_: "Apa gambaran Anda tentang pekerjaan ini?" },
-    { id: "109", cat: "c13", ja: "のうぎょうのけいけんを、おしえてください。", id_: "Ceritakan pengalaman Anda di bidang pertanian." }
+    { id: "109", cat: "c13", ja: "のうぎょうのけいけんを、おしえてください。", id_: "Ceritakan pengalaman Anda di bidang pertanian." },
+    { id: "110", cat: "c13", ja: "このしごとは、どんなしごとか、しっていますか？", id_: "Apakah Anda tahu pekerjaan ini pekerjaan apa?" },
+    { id: "111", cat: "c13", ja: "おもいものを、もったことはありますか？　なんキロくらいですか？", id_: "Apakah Anda pernah mengangkat barang berat? Kira-kira berapa kilo?" },
+    { id: "112", cat: "c13", ja: "あんぜんのために、なにがたいせつだとおもいますか？", id_: "Menurut Anda, apa yang penting untuk keselamatan kerja?" },
+    { id: "113", cat: "c13", ja: "にほんで、どんなしかくをとりたいですか？", id_: "Sertifikat apa yang ingin Anda dapatkan di Jepang?" },
+    { id: "114", cat: "c13", ja: "ずっとたったまま、おなじさぎょうをつづけるのは、だいじょうぶですか？", id_: "Apakah Anda tidak masalah berdiri lama dan melakukan pekerjaan yang sama terus-menerus?" },
+    { id: "115", cat: "c13", ja: "しごとでせいけつにするために、なにをしますか？", id_: "Untuk menjaga kebersihan saat bekerja, apa yang Anda lakukan?" },
+    { id: "116", cat: "c13", ja: "そうじは、とくいですか？", id_: "Apakah Anda pandai bersih-bersih?" },
+    { id: "117", cat: "c13", ja: "おきゃくさんに、えがおであいさつできますか？", id_: "Bisakah Anda menyapa tamu dengan senyum?" },
+    { id: "118", cat: "c13", ja: "このしごとに、にているけいけんはありますか？", id_: "Apakah Anda punya pengalaman yang mirip dengan pekerjaan ini?" },
+    { id: "119", cat: "c13", ja: "そとでのしごとは、だいじょうぶですか？　あついひも、さむいひもあります。", id_: "Apakah Anda tidak masalah bekerja di luar? Ada hari panas dan hari dingin." },
+    { id: "120", cat: "c13", ja: "いなかでのせいかつは、だいじょうぶですか？", id_: "Apakah Anda tidak masalah tinggal di pedesaan?" },
+    { id: "121", cat: "c13", ja: "どうぶつやしょくぶつのせわを、したことはありますか？", id_: "Pernahkah Anda merawat hewan atau tanaman?" }
   ],
 
   // =============================================================
   // 職種 / Bidang kerja（STEP 4 で選ぶ）
-  //   pool の中から2〜3問が、面接の流れの最後のほうに入ります。
+  //   pool の中から3問が、面接の流れの最後のほう（しめくくりの前）に入ります。
   //   職種や質問をふやすときは、ここに足します。
   // =============================================================
   jobs: [
     { id: "kensetsu",  ja: "けんせつ",                 id_: "Konstruksi",
-      pool: ["102", "103", "104", "086", "089"] },
+      pool: ["102", "103", "104", "086", "089", "110", "111", "112", "045", "113"] },
     { id: "shokuhin",  ja: "しょくひん せいぞう",        id_: "Pengolahan makanan",
-      pool: ["105", "106", "088", "060", "097"] },
+      pool: ["105", "106", "088", "060", "097", "114", "115", "056", "084", "095"] },
     { id: "shukuhaku", ja: "しゅくはく・ビルクリーニング", id_: "Perhotelan & pembersihan gedung",
-      pool: ["107", "108", "060", "064", "067"] },
+      pool: ["107", "108", "060", "064", "067", "116", "117", "081", "083", "077"] },
     { id: "seizou",    ja: "せいぞう（ようせつ・とそう など）", id_: "Manufaktur (las, cat, dll.)",
-      pool: ["049", "051", "061", "062", "063"] },
+      pool: ["049", "051", "061", "062", "063", "110", "048", "045", "118", "098"] },
     { id: "nougyou",   ja: "のうぎょう",               id_: "Pertanian",
-      pool: ["109", "068", "086", "060"] },
+      pool: ["109", "068", "086", "060", "119", "120", "121", "044", "092", "111"] },
     { id: "ippan",     ja: "まだ きまっていない",        id_: "Belum ditentukan (pertanyaan umum)",
-      pool: ["086", "060", "061", "062", "102"] }
+      pool: ["086", "060", "061", "062", "102", "111", "056", "110", "098", "087"] }
   ],
 
   // =============================================================
@@ -497,6 +509,193 @@ window.QUESTION_DATA = {
       "なにか、ききたいことはありますか？",
       "ほかに、なにかしつもんはありますか？",
       "わたしたちにききたいことがあれば、どうぞ。"
+    ]
+  },
+
+  // =============================================================
+  // こたえかたのポイント / Tips menjawab
+  //   答えたあとに表示します。[日本語, インドネシア語] の組で書きます。
+  // =============================================================
+  points: {
+    "102": [
+      ["「だいじょうぶです」に、りゆうを1つたす", "Tambahkan satu alasan setelah \"daijoubu desu\"."],
+      ["れい：はい、だいじょうぶです。インドネシアでも、そとでしごとをしていました。", "Contoh: Ya, tidak masalah. Di Indonesia saya juga pernah bekerja di luar."]
+    ],
+    "103": [
+      ["あれば、いつ・どこで・なにをしたかを みじかく", "Kalau pernah, sebutkan singkat kapan, di mana, dan apa."],
+      ["なければ、しょうじきに「ありません。でも、がんばります」", "Kalau belum, jawab jujur: \"Arimasen. Demo, ganbarimasu.\""]
+    ],
+    "104": [
+      ["こわくないこと、あんぜんを まもれることを つたえる", "Sampaikan bahwa Anda tidak takut dan bisa menjaga keselamatan."],
+      ["れい：はい、だいじょうぶです。あんぜんベルトを ちゃんと つかいます。", "Contoh: Ya, tidak masalah. Saya akan memakai sabuk pengaman dengan benar."]
+    ],
+    "086": [
+      ["「あります」だけでなく、いつも している うんどうを いう", "Jangan hanya \"arimasu\", sebutkan olahraga yang biasa Anda lakukan."],
+      ["れい：はい、あります。まいあさ ３キロ はしっています。", "Contoh: Ya. Setiap pagi saya lari 3 km."]
+    ],
+    "089": [
+      ["かいすうは しょうじきに。うそは あとで わかる", "Sebutkan jumlahnya dengan jujur. Kebohongan akan ketahuan."],
+      ["れい：うでたてふせは ３０かい、ふっきんは ４０かい できます。", "Contoh: Push-up 30 kali, sit-up 40 kali."]
+    ],
+    "110": [
+      ["しょくしゅの なまえと、おもな しごとを １つ いう", "Sebutkan nama bidang kerja dan satu tugas utamanya."],
+      ["れい：はい、けんせつの しごとです。たてものを つくる しごとです。", "Contoh: Ya, pekerjaan konstruksi. Pekerjaan membangun gedung."]
+    ],
+    "111": [
+      ["なにを、なんキロくらい もったか、ぐたいてきに", "Sebutkan barang apa dan kira-kira berapa kilo, secara konkret."],
+      ["れい：はい。いえで、２５キロの こめを はこんでいました。", "Contoh: Ya. Di rumah saya biasa mengangkat beras 25 kg."]
+    ],
+    "112": [
+      ["ルールを まもる・わからないときは きく、を つたえる", "Sampaikan: menaati aturan dan bertanya kalau tidak tahu."],
+      ["れい：ルールを まもることです。わからないときは、すぐ せんぱいに ききます。", "Contoh: Menaati aturan. Kalau tidak tahu, saya langsung bertanya kepada senior."]
+    ],
+    "045": [
+      ["せんこうと、しごとの つながりを １つ", "Sebutkan jurusan dan satu hubungannya dengan pekerjaan."],
+      ["れい：きかいを べんきょうしました。どうぐの つかいかたを ならいました。", "Contoh: Saya belajar mesin. Saya belajar cara memakai alat."]
+    ],
+    "113": [
+      ["しごとに かんけいする しかくを １つ", "Sebutkan satu sertifikat yang berhubungan dengan pekerjaan."],
+      ["わからなければ「にほんごの N3 です」でも いい", "Kalau belum tahu, boleh jawab: \"Nihongo no N3 desu\"."]
+    ],
+    "105": [
+      ["できることを はっきり つたえる。あいまいに しない", "Sampaikan dengan jelas apa yang bisa Anda lakukan. Jangan ragu-ragu."],
+      ["れい：はい、てぶくろを すれば だいじょうぶです。", "Contoh: Ya, kalau memakai sarung tangan tidak masalah."]
+    ],
+    "106": [
+      ["けいけんの あり・なしを しょうじきに", "Jawab jujur pernah atau belum."],
+      ["はだに あわなかった ことが あれば、それも つたえる", "Kalau pernah ada masalah di kulit, sampaikan juga."]
+    ],
+    "088": [
+      ["しょうじきに こたえる。かくさない", "Jawab dengan jujur. Jangan menyembunyikan."],
+      ["れい：いいえ、ありません。", "Contoh: Tidak, tidak ada."]
+    ],
+    "060": [
+      ["なんじに おきているか、じっさいの じかんを いう", "Sebutkan jam bangun Anda yang sebenarnya."],
+      ["れい：はい、できます。まいにち ５じに おきています。", "Contoh: Ya, bisa. Setiap hari saya bangun jam 5."]
+    ],
+    "097": [
+      ["しょうじきに こたえる", "Jawab dengan jujur."],
+      ["のまない ときは、ていねいに りゆうを みじかく", "Kalau tidak minum, sampaikan alasannya singkat dan sopan."]
+    ],
+    "114": [
+      ["けいけんが あれば いう。なければ「なれるように がんばります」", "Sebutkan pengalaman kalau ada. Kalau belum: \"Nareru you ni ganbarimasu\"."],
+      ["れい：はい、だいじょうぶです。まえの しごとで、８じかん たっていました。", "Contoh: Ya, tidak masalah. Di pekerjaan sebelumnya saya berdiri 8 jam."]
+    ],
+    "115": [
+      ["てあらい・ふく・かみ など、ぐたいてきに", "Sebutkan hal konkret: cuci tangan, pakaian, rambut, dll."],
+      ["れい：てを よく あらいます。つめも みじかく します。", "Contoh: Saya mencuci tangan dengan baik. Kuku juga dipotong pendek."]
+    ],
+    "056": [
+      ["いいわけを しないで、まず あやまる・なおす", "Jangan beralasan. Pertama minta maaf, lalu perbaiki."],
+      ["れい：「すみません」と いって、つぎから きを つけます。", "Contoh: Saya bilang \"sumimasen\", lalu lain kali lebih hati-hati."]
+    ],
+    "084": [
+      ["もくひょうを はっきり いう", "Sebutkan target dengan jelas."],
+      ["れい：３ねんで N3 に ごうかくしたいです。", "Contoh: Dalam 3 tahun saya ingin lulus N3."]
+    ],
+    "095": [
+      ["じぶんの かんがえを しょうじきに つたえる", "Sampaikan pendapat Anda dengan jujur."],
+      ["そのうえで、しごとや かいしゃの ルールに あわせる きもちも つたえる", "Lalu sampaikan juga kesediaan menyesuaikan dengan pekerjaan dan aturan perusahaan."]
+    ],
+    "107": [
+      ["できる レベルを しょうじきに", "Sebutkan tingkat kemampuan Anda dengan jujur."],
+      ["「すこし」なら、かんたんな あいさつを してみせる", "Kalau \"sedikit\", tunjukkan salam sederhana dalam bahasa Inggris."]
+    ],
+    "108": [
+      ["しごとの ないようと、じぶんに あう ところを いう", "Sebutkan isi pekerjaan dan bagian yang cocok dengan diri Anda."],
+      ["れい：へやを きれいにする しごとです。そうじが すきなので、あっています。", "Contoh: Pekerjaan membersihkan kamar. Saya suka bersih-bersih, jadi cocok."]
+    ],
+    "064": [
+      ["だれと、なんにんで、どのくらい", "Dengan siapa, berapa orang, dan berapa lama."],
+      ["れい：はい。LPKで ８にんと ３かげつ くらしています。", "Contoh: Ya. Di LPK saya tinggal dengan 8 orang selama 3 bulan."]
+    ],
+    "067": [
+      ["はなしあう・ルールを きめる など、じぶんが した ことを いう", "Sebutkan apa yang Anda lakukan, misalnya berdiskusi atau membuat aturan."],
+      ["けんかの はなしだけで おわらない", "Jangan hanya bercerita soal bertengkar."]
+    ],
+    "116": [
+      ["すき・とくい な りゆうを １つ", "Sebutkan satu alasan kenapa Anda suka atau pandai."],
+      ["れい：はい。いえで まいにち そうじを しています。", "Contoh: Ya. Di rumah saya bersih-bersih setiap hari."]
+    ],
+    "117": [
+      ["その ばで、えがおで あいさつを してみせる", "Langsung tunjukkan salam dengan senyum di tempat."],
+      ["れい：はい。（えがおで）おはようございます！", "Contoh: Ya. (dengan senyum) Ohayou gozaimasu!"]
+    ],
+    "081": [
+      ["なにを、どのくらい、ぐたいてきに", "Sebutkan apa dan berapa lama, secara konkret."],
+      ["れい：まいばん １じかん、ことばを おぼえています。", "Contoh: Setiap malam 1 jam saya menghafal kosakata."]
+    ],
+    "083": [
+      ["もくひょうの レベルを はっきり", "Sebutkan level target dengan jelas."],
+      ["れい：N3 まで べんきょうしたいです。", "Contoh: Saya ingin belajar sampai N3."]
+    ],
+    "077": [
+      ["ばしょの なまえと、いい ところを １つ", "Sebutkan nama tempat dan satu hal yang bagus."],
+      ["れい：バリです。うみが とても きれいです。", "Contoh: Bali. Lautnya sangat indah."]
+    ],
+    "049": [
+      ["しごとごとに「どこで・なにを」を みじかく", "Untuk tiap pekerjaan, sebutkan singkat \"di mana, apa\"."],
+      ["この しごとに にている けいけんが あれば、さいごに いう", "Kalau ada pengalaman yang mirip dengan pekerjaan ini, sebutkan di akhir."]
+    ],
+    "051": [
+      ["かくさないで、しょうじきに", "Jangan menyembunyikan, jawab dengan jujur."],
+      ["その あいだに した こと（べんきょう・てつだい など）を いう", "Sebutkan yang Anda lakukan saat itu (belajar, membantu keluarga, dll.)."]
+    ],
+    "061": [
+      ["「だいじょうぶです」と、はっきり", "Jawab \"daijoubu desu\" dengan jelas."],
+      ["れい：はい、だいじょうぶです。たくさん はたらいて、ちょきんしたいです。", "Contoh: Ya, tidak masalah. Saya ingin banyak bekerja dan menabung."]
+    ],
+    "062": [
+      ["はっきり こたえる", "Jawab dengan jelas."],
+      ["れい：はい、でられます。", "Contoh: Ya, saya bisa masuk."]
+    ],
+    "063": [
+      ["じぶんの きもちを きりかえる ほうほうを １つ", "Sebutkan satu cara Anda mengembalikan semangat."],
+      ["れい：かぞくの しゃしんを みて、もくひょうを おもいだします。", "Contoh: Saya melihat foto keluarga dan mengingat tujuan saya."]
+    ],
+    "048": [
+      ["あたらしい じゅんに、しごとの なまえと きかん", "Urutkan dari yang terbaru: nama pekerjaan dan lamanya."],
+      ["りれきしょと おなじ ないようで こたえる", "Jawab sesuai isi CV."]
+    ],
+    "118": [
+      ["にている ところを １つ みつけて いう", "Temukan dan sebutkan satu kemiripan."],
+      ["なければ「ありません。でも、はやく おぼえます」", "Kalau tidak ada: \"Arimasen. Demo, hayaku oboemasu\"."]
+    ],
+    "098": [
+      ["かいしゃの ひとと なかよく したい きもちを つたえる", "Sampaikan bahwa Anda ingin akrab dengan orang di perusahaan."],
+      ["のまない ときは：いきます。でも、ジュースを のみます。", "Kalau tidak minum alkohol: \"Ikimasu. Demo, juusu o nomimasu.\""]
+    ],
+    "109": [
+      ["いつ・どこで・なにを そだてたか", "Kapan, di mana, dan apa yang ditanam atau dipelihara."],
+      ["れい：りょうしんの たんぼで、こめを つくって いました。", "Contoh: Saya menanam padi di sawah orang tua."]
+    ],
+    "068": [
+      ["「だいじょうぶです」に、けいけんを たす", "Tambahkan pengalaman setelah \"daijoubu desu\"."],
+      ["れい：はい。いまも LPKで ともだちと くらしています。", "Contoh: Ya. Sekarang pun saya tinggal bersama teman di LPK."]
+    ],
+    "119": [
+      ["あつさ・さむさに まけない ことを つたえる", "Sampaikan bahwa Anda kuat menghadapi panas dan dingin."],
+      ["れい：はい。インドネシアで、そとの しごとを していました。", "Contoh: Ya. Di Indonesia saya pernah bekerja di luar."]
+    ],
+    "120": [
+      ["いなかの いい ところを １つ いう", "Sebutkan satu hal baik tentang tinggal di desa."],
+      ["れい：はい。わたしの むらも しずかで、すきです。", "Contoh: Ya. Desa saya juga tenang, saya suka."]
+    ],
+    "121": [
+      ["なにを、どのくらい せわしたか", "Apa dan berapa lama Anda merawatnya."],
+      ["れい：はい。いえで、にわとりを かっていました。", "Contoh: Ya. Di rumah saya memelihara ayam."]
+    ],
+    "044": [
+      ["つくれる りょうりを １つ いう", "Sebutkan satu masakan yang bisa Anda buat."],
+      ["れい：はい。ナシゴレンを つくれます。", "Contoh: Ya. Saya bisa membuat nasi goreng."]
+    ],
+    "092": [
+      ["はっきり こたえる", "Jawab dengan jelas."],
+      ["のれない ときは「れんしゅうします」", "Kalau belum bisa: \"Renshuu shimasu\"."]
+    ],
+    "087": [
+      ["しょうじきに こたえる。かくさない", "Jawab dengan jujur. Jangan menyembunyikan."],
+      ["いまは げんきなら、それも つたえる", "Kalau sekarang sudah sehat, sampaikan juga."]
     ]
   },
 

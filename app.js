@@ -9,6 +9,7 @@
   var VARIANTS = DATA.variants || {};
   var FLOW = DATA.flow;
   var JOBS = DATA.jobs || [];
+  var POINTS = DATA.points || {};
   var STORAGE_KEY = "ijfa_interview_records";
   var AUDIO = {};            // audio/audio.json：{ "001_0": "更新日", ... }
   var player = new Audio();
@@ -271,7 +272,7 @@
         if (job) {
           var used0 = list.map(function (it) { return it.q.id; });
           var jstage = { ja: "しょくしゅの しつもん", id_: job.id_ };
-          shuffle(job.pool.filter(function (id) { return used0.indexOf(id) < 0; })).slice(0, 2).forEach(function (id) {
+          shuffle(job.pool.filter(function (id) { return used0.indexOf(id) < 0; })).slice(0, 3).forEach(function (id) {
             var jq = qById(id);
             if (jq) list.push(item(jq, jstage));
           });
@@ -406,6 +407,15 @@
     $("btnAnswered").classList.add("hidden");
     $("qText").classList.remove("covered");   // 答えたあとは文字を見て確かめる
     $("btnHint1").classList.add("hidden");
+
+    // こたえかたのポイント
+    var pts = POINTS[q.id];
+    $("pointBox").classList.toggle("hidden", !pts);
+    if (pts) {
+      $("pointBox").innerHTML = "<h2>こたえかたの ポイント<span>Tips menjawab</span></h2><ul>" +
+        pts.map(function (t) { return "<li>" + esc(t[0]) + "<span>" + esc(t[1]) + "</span></li>"; }).join("") +
+        "</ul>";
+    }
 
     // ほかの聞き方
     var ways = allWays(q);
