@@ -23,14 +23,10 @@
       goal: "10もん ぜんぶ ◎", goalId: "Semua 10 soal ◎",
       setup: { mode: "key" } },
     { n: 2, ja: "めんせつの ながれ", id_: "Alur wawancara",
-      what: "じゅんばんを おぼえる", whatId: "Hafalkan urutan wawancara",
+      what: "じゅんばんを おぼえる。しつもんは まいかい かわる", whatId: "Hafalkan urutan. Pertanyaan berubah setiap kali",
       goal: "◎ が 8わり いじょう", goalId: "◎ minimal 80%",
-      setup: { mode: "flow", level: "basic" } },
-    { n: 3, ja: "いろいろな ききかた", id_: "Berbagai cara bertanya",
-      what: "しつもんも いいかたも かわる", whatId: "Pertanyaan & cara bertanya berubah",
-      goal: "おと だけで 7わり こたえる", goalId: "70% dijawab hanya dengan mendengar",
       setup: { mode: "flow", level: "mid" } },
-    { n: 4, ja: "ほんばん れんしゅう", id_: "Latihan seperti wawancara asli",
+    { n: 3, ja: "ほんばん れんしゅう", id_: "Latihan seperti wawancara asli",
       what: "しょくしゅを えらんで ほんばんと おなじ形で", whatId: "Pilih bidang kerja, seperti wawancara asli",
       goal: "めんせつの ひまで なんかいでも", goalId: "Ulangi sampai hari wawancara",
       setup: { mode: "flow", level: "final" } }
@@ -161,15 +157,13 @@
   }
 
   // ---------- クリア判定 ----------
+  var STEP_VER = 2;            // ステップ構成の版（3ステップ）。古い記録は数えない
+  var LAST_STEP = STEPS.length;
   function isClear(step, res) {
     if (!res || !res.total) return false;
     if (step === 1) return res.total >= 10 && res.good === res.total;
     if (step === 2) return res.good / res.total >= 0.8;
-    if (step === 3) {
-      if (res.audioTotal) return res.earOnly / res.audioTotal >= 0.7;
-      return res.good / res.total >= 0.8;      // 音声がないときの代わり
-    }
-    return false;                               // STEP 4 はクリアなし
+    return false;                               // ほんばん れんしゅう はクリアなし
   }
   function stepStatus() {
     var recs = myRecords();
@@ -178,14 +172,14 @@
     recs.forEach(function (r) {
       var res = r.result || {};
       var n = res.step;
-      if (!info[n]) return;
+      if (res.stepVer !== STEP_VER || !info[n]) return;
       info[n].runs++;
       if (isClear(n, res)) info[n].clear = true;
       var sc = res.total ? res.good / res.total : 0;
       if (!info[n].best || sc > info[n].best.sc) info[n].best = { sc: sc, good: res.good, total: res.total };
     });
-    var next = 4;
-    for (var i = 1; i <= 3; i++) { if (!info[i].clear) { next = i; break; } }
+    var next = LAST_STEP;
+    for (var i = 1; i < LAST_STEP; i++) { if (!info[i].clear) { next = i; break; } }
     return { info: info, next: next };
   }
 
@@ -228,7 +222,7 @@
   }
 
   function openStep(n) {
-    if (n === 4) { renderJobs(); show("screenJob"); return; }
+    if (n === LAST_STEP) { renderJobs(); show("screenJob"); return; }
     var s = STEPS[n - 1];
     startPractice({ mode: s.setup.mode, level: s.setup.level, step: n });
   }
@@ -241,7 +235,7 @@
       b.className = "choice";
       b.innerHTML = "<b>" + esc(j.ja) + "</b><span>" + esc(j.id_) + "</span>";
       b.addEventListener("click", function () {
-        startPractice({ mode: "flow", level: "final", step: 4, job: j.id });
+        startPractice({ mode: "flow", level: "final", step: LAST_STEP, job: j.id });
       });
       box.appendChild(b);
     });
@@ -483,6 +477,7 @@
       practiceName: step ? "面接練習 STEP" + step : (setup.mode === "retry" ? "面接練習 復習" : "面接練習 自由"),
       result: {
         step: step,
+        stepVer: STEP_VER,
         job: setup.job || "",
         modeLabel: modeLabel(setup),
         total: total,
@@ -515,8 +510,8 @@
     if (clearNow) {
       $("rClear").innerHTML = "STEP " + step + " クリア！<span>STEP " + step + " selesai!</span>";
     }
-    $("btnNext").classList.toggle("hidden", !(clearNow && step < 4));
-    if (step && step < 4 && !clearNow) {
+    $("btnNext").classList.toggle("hidden", !(clearNow && step < LAST_STEP));
+    if (step && step < LAST_STEP && !clearNow) {
       var s = STEPS[step - 1];
       $("rGoal").innerHTML = (wasClear ? "クリアずみ / Sudah selesai。" : "") +
         "クリアの めやす：" + esc(s.goal) + "<span>Target: " + esc(s.goalId) + "</span>";
@@ -584,7 +579,7 @@
   });
   $("btnNext").addEventListener("click", function () {
     var n = (state.lastSetup.step || 0) + 1;
-    if (n <= 4) openStep(n);
+    if (n <= LAST_STEP) openStep(n);
   });
   $("btnHome").addEventListener("click", goHome);
 
