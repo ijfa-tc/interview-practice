@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>面接練習 / Latihan Wawancara | IJFA</title>
-  <link rel="stylesheet" href="style.css?v=20261111c">
+  <link rel="stylesheet" href="style.css?v=20261116a">
 </head>
 <body>
   <header class="top">
@@ -53,6 +53,17 @@
         <div id="qText" class="qtext"></div>
         <div id="qTrans" class="qtrans hidden"></div>
         <div class="timer"><span>こたえる じかん / Waktu</span> <b id="timer">0:00</b></div>
+      </div>
+
+      <!-- じぶんの こたえを ろくおん（つかえる スマホだけ。つかわなくても れんしゅうできる） -->
+      <div id="recBox" class="recbox hidden">
+        <button id="btnRec" class="btn rec">● こたえを ろくおん<span>Rekam jawabanmu</span></button>
+        <button id="btnRecStop" class="btn rec on hidden">■ とめる <b id="recTime">0:00</b><span>Berhenti merekam</span></button>
+        <div id="recDone" class="row hidden">
+          <button id="btnMyPlay" class="btn sub">▶ じぶんの こえ<span>Dengar suaramu</span></button>
+          <button id="btnReRec" class="btn sub">● もういちど<span>Rekam ulang</span></button>
+        </div>
+        <p id="recMsg" class="recmsg">ろくおんは この スマホの なかだけ。つぎへ すすむと きえます。<span>Rekaman hanya di HP ini, tidak dikirim. Akan hilang saat lanjut ke soal berikutnya.</span></p>
       </div>
 
       <div class="row">
@@ -106,7 +117,7 @@
 
   <footer>IJFA Training Center ・ 誠実・礼儀・自律</footer>
 
-  <script src="questions.js?v=20261111c"></script>
-  <script src="app.js?v=20261111c"></script>
+  <script src="questions.js?v=20261116a"></script>
+  <script src="app.js?v=20261116a"></script>
 </body>
 </html>

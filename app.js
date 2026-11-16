@@ -98,7 +98,8 @@
     return AUDIO[k] ? "audio/" + k + ".mp3?v=" + encodeURIComponent(AUDIO[k]) : "";
   }
   function playAudio(src) {
-    if (!src) return;
+    if (!src || isRecording()) return;
+    try { myPlayer.pause(); } catch (e) {}
     try {
       player.pause();
       player.src = src;
@@ -124,6 +125,161 @@
       .then(function (j) { AUDIO = j || {}; })
       .catch(function () {});
   } catch (e) { /* 音声なしでも練習できる */ }
+
+  // ---------- じぶんの こたえを ろくおん（このスマホの中だけ。外へ送らない） ----------
+  // つかえない端末・マイクを許可しない場合は、ろくおんなしで今までどおり練習できる。
+  var REC_MAX_SEC = 90;
+  var rec = {
+    ok: !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder),
+    blocked: false,     // マイクが使えないと分かったら、このページではボタンを出さない
+    busy: false,        // マイク準備中（二重おし防止）
+    recorder: null, stream: null, chunks: [], url: "",
+    startedAt: 0, tickId: null, autoStopId: null,
+    count: 0            // この質問で何回ろくおんしたか（記録用）
+  };
+  var myPlayer = new Audio();
+
+  function recMime() {
+    var types = ["audio/mp4", "audio/webm;codecs=opus", "audio/webm", "audio/ogg;codecs=opus"];
+    for (var i = 0; i < types.length; i++) {
+      try { if (MediaRecorder.isTypeSupported(types[i])) return types[i]; } catch (e) {}
+    }
+    return "";
+  }
+  function isRecording() { return !!(rec.recorder && rec.recorder.state === "recording"); }
+
+  function recView(mode) {          // "ready" / "recording" / "done" / "off"
+    $("recBox").classList.toggle("hidden", mode === "off");
+    $("btnRec").classList.toggle("hidden", mode !== "ready");
+    $("btnRecStop").classList.toggle("hidden", mode !== "recording");
+    $("recDone").classList.toggle("hidden", mode !== "done");
+    $("btnPlay").disabled = (mode === "recording");
+  }
+  function recMsg(html, warn) {
+    $("recMsg").innerHTML = html;
+    $("recMsg").classList.toggle("warn", !!warn);
+  }
+  function recDefaultMsg() {
+    recMsg("ろくおんは この スマホの なかだけ。つぎへ すすむと きえます。" +
+      "<span>Rekaman hanya di HP ini, tidak dikirim. Akan hilang saat lanjut ke soal berikutnya.</span>", false);
+  }
+  function releaseMic() {
+    if (rec.stream) {
+      try { rec.stream.getTracks().forEach(function (t) { t.stop(); }); } catch (e) {}
+      rec.stream = null;
+    }
+  }
+  function clearRecTimers() {
+    if (rec.tickId) { clearInterval(rec.tickId); rec.tickId = null; }
+    if (rec.autoStopId) { clearTimeout(rec.autoStopId); rec.autoStopId = null; }
+  }
+  function dropRecording() {
+    try { myPlayer.pause(); myPlayer.removeAttribute("src"); myPlayer.load(); } catch (e) {}
+    if (rec.url) { try { URL.revokeObjectURL(rec.url); } catch (e) {} rec.url = ""; }
+    rec.chunks = [];
+  }
+
+  // 質問がかわるとき・やめるとき：ろくおんを止めて、データを捨てて、マイクを返す
+  function recReset() {
+    clearRecTimers();
+    if (rec.recorder) {
+      rec.recorder.ondataavailable = null;
+      rec.recorder.onstop = null;
+      try { if (rec.recorder.state !== "inactive") rec.recorder.stop(); } catch (e) {}
+      rec.recorder = null;
+    }
+    releaseMic();
+    dropRecording();
+    rec.busy = false;
+    rec.count = 0;
+    recDefaultMsg();
+    recView(rec.ok && !rec.blocked ? "ready" : "off");
+  }
+
+  function recFail(err) {
+    rec.busy = false;
+    clearRecTimers();
+    releaseMic();
+    rec.recorder = null;
+    var name = err && err.name;
+    if (name === "NotAllowedError" || name === "SecurityError") {
+      recMsg("マイクが つかえません。ブラウザの せっていで マイクを「きょか」して ください。" +
+        "ろくおんしなくても れんしゅうは できます。" +
+        "<span>Mikrofon tidak diizinkan. Izinkan mikrofon di pengaturan browser. " +
+        "Tanpa rekaman pun tetap bisa latihan.</span>", true);
+      recView("ready");
+    } else if (name === "NotFoundError" || name === "NotReadableError") {
+      rec.blocked = true;
+      recMsg("マイクが みつかりません。ろくおんなしで れんしゅう しましょう。" +
+        "<span>Mikrofon tidak ditemukan. Lanjutkan latihan tanpa rekaman.</span>", true);
+      $("btnRec").classList.add("hidden");
+      $("btnRecStop").classList.add("hidden");
+      $("btnPlay").disabled = false;
+    } else {
+      recMsg("ろくおん できませんでした。もういちど おして ください。" +
+        "<span>Gagal merekam. Coba tekan lagi. Tanpa rekaman pun tetap bisa latihan.</span>", true);
+      recView(rec.url ? "done" : "ready");
+    }
+  }
+
+  function startRec() {
+    if (rec.busy || isRecording()) return;     // 二重おし防止
+    rec.busy = true;
+    try { player.pause(); } catch (e) {}       // 質問の音声は止める
+    try { myPlayer.pause(); } catch (e) {}
+    $("btnPlay").classList.remove("playing");
+    recDefaultMsg();
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+      // 待っているあいだに次の質問へ進んだ場合は、すぐマイクを返す
+      if (!rec.busy) { stream.getTracks().forEach(function (t) { t.stop(); }); return; }
+      dropRecording();
+      rec.stream = stream;
+      var mime = recMime();
+      var mr = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+      rec.recorder = mr;
+      rec.chunks = [];
+      mr.ondataavailable = function (e) { if (e.data && e.data.size) rec.chunks.push(e.data); };
+      mr.onstop = function () {
+        clearRecTimers();
+        releaseMic();                           // ろくおんが終わったら、すぐマイクを返す
+        var blob = new Blob(rec.chunks, { type: mr.mimeType || mime || "audio/mp4" });
+        rec.chunks = [];
+        rec.recorder = null;
+        if (!blob.size) { recFail(null); return; }
+        rec.url = URL.createObjectURL(blob);
+        rec.count++;
+        recView("done");
+      };
+      mr.start();
+      rec.busy = false;
+      rec.startedAt = Date.now();
+      $("recTime").textContent = "0:00";
+      rec.tickId = setInterval(function () {
+        var s = Math.floor((Date.now() - rec.startedAt) / 1000);
+        $("recTime").textContent = Math.floor(s / 60) + ":" + pad(s % 60);
+      }, 500);
+      rec.autoStopId = setTimeout(stopRec, REC_MAX_SEC * 1000);
+      recView("recording");
+    }).catch(recFail);
+  }
+
+  function stopRec() {
+    clearRecTimers();
+    if (isRecording()) {
+      try { rec.recorder.stop(); } catch (e) { recFail(e); }
+    }
+  }
+
+  function playMine() {
+    if (!rec.url) return;
+    try {
+      player.pause();
+      $("btnPlay").classList.remove("playing");
+      myPlayer.src = rec.url;
+      var p = myPlayer.play();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) { /* 再生できなくても練習は続けられる */ }
+  }
 
   function show(screen) {
     ["screenStart", "screenJob", "screenPractice", "screenResult"].forEach(function (s) {
@@ -332,6 +488,7 @@
     var it = state.list[state.index];
     var q = it.q;
     var total = state.list.length;
+    recReset();                       // まえの質問の ろくおんは捨てる
 
     $("progressText").textContent = (state.index + 1) + " / " + total;
     $("progressFill").style.width = (state.index / total * 100) + "%";
@@ -396,6 +553,7 @@
 
   function onAnswered() {
     stopTimer();
+    stopRec();                        // ろくおん中なら止める（聞き返しはできる）
     var it = state.list[state.index];
     var q = it.q;
     $("btnAnswered").classList.add("hidden");
@@ -443,7 +601,7 @@
     var it = state.list[state.index];
     var sec = Math.floor((Date.now() - state.qStartedAt) / 1000);
     state.results.push({ qid: it.q.id, v: it.v, rate: rate, sec: sec,
-      audio: !!it.audio, hint: state.hint, plays: state.plays });
+      audio: !!it.audio, hint: state.hint, plays: state.plays, rec: rec.count });
     state.index++;
     if (state.index < state.list.length) {
       showQuestion();
@@ -456,6 +614,7 @@
   // ---------- 結果 ----------
   function finish() {
     stopTimer();
+    recReset();
     try { player.pause(); } catch (e) {}
     var good = 0, some = 0, ng = 0;
     state.results.forEach(function (r) {
@@ -488,7 +647,7 @@
         durationSec: Math.round((now - state.startedAt) / 1000),
         audioTotal: aud.length,
         earOnly: earOnly,
-        items: state.results       // qid（質問番号）, v（言い方の番号）, rate, sec, audio, hint, plays
+        items: state.results       // qid（質問番号）, v（言い方の番号）, rate, sec, audio, hint, plays, rec（ろくおん回数）
       }
     };
     saveRecord(record);
@@ -547,6 +706,7 @@
   });
   $("btnHint").addEventListener("click", function () { $("hintBox").classList.toggle("hidden"); });
   $("btnPlay").addEventListener("click", function () {
+    if (isRecording()) return;
     var it = state.list[state.index];
     playAudio(audioSrc(it.q.id, it.v));
     state.plays++;
@@ -558,6 +718,10 @@
     if (state.hint < 1) state.hint = 1;
   });
   $("btnAnswered").addEventListener("click", onAnswered);
+  $("btnRec").addEventListener("click", startRec);
+  $("btnRecStop").addEventListener("click", stopRec);
+  $("btnReRec").addEventListener("click", startRec);
+  $("btnMyPlay").addEventListener("click", playMine);
   document.querySelectorAll(".rate .btn").forEach(function (b) {
     b.addEventListener("click", function () { onRate(b.dataset.rate); });
   });
@@ -584,6 +748,7 @@
   $("btnHome").addEventListener("click", goHome);
 
   function goHome() {
+    recReset();
     try { player.pause(); } catch (e) {}
     stopTimer();
     renderSteps();
