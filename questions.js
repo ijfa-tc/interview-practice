@@ -509,6 +509,437 @@ window.QUESTION_DATA = {
       "なにか、ききたいことはありますか？",
       "ほかに、なにかしつもんはありますか？",
       "わたしたちにききたいことがあれば、どうぞ。"
+    ],
+    // ---- 2026-11-17 追加（すべての質問に ほかの聞き方） ----
+    "007": [
+      "にほんのせいかつで、しんぱいなことはありますか？",
+      "なにか、ふあんなことはありますか？",
+      "にほんでしごとをするとき、こまりそうなことはなんですか？"
+    ],
+    "008": [
+      "きゅうりょうは、いくらくらいだとおもいますか？",
+      "うちのきゅうりょう、しっていますか？",
+      "ひとつきに、どのくらいもらえるとおもいますか？"
+    ],
+    "012": [
+      "はじめてのきゅうりょうで、なにをしたいですか？",
+      "さいしょのきゅうりょうは、どうするつもりですか？",
+      "きゅうりょうをもらったら、まずなににつかいますか？"
+    ],
+    "013": [
+      "かぞくに、しおくりをしますか？ どうしてですか？",
+      "りょうしんにおかねをおくるよていはありますか？ それはなんのためですか？",
+      "しおくりは、かんがえていますか？ りゆうもおしえてください。"
+    ],
+    "018": [
+      "あなたのつよみを、おしえてください。",
+      "じぶんのいいところを、はなしてください。",
+      "ほかのひとにまけない、じぶんのいいところはなんですか？"
+    ],
+    "021": [
+      "あなたは、どんなせいかくですか？",
+      "じぶんのせいかくを、ひとことでいうと、なんですか？",
+      "じぶんは、どんなひとだとおもいますか？"
+    ],
+    "022": [
+      "１０ねんごには、どんなひとになっていたいですか？",
+      "どんなおとなになりたいですか？",
+      "これから、どんなひとをめざしたいですか？"
+    ],
+    "023": [
+      "だれか、そんけいしているひとはいますか？ りゆうもおしえてください。",
+      "あこがれているひとはいますか？ どうしてですか？",
+      "あなたのおてほんになるひとは、だれですか？ なぜですか？"
+    ],
+    "024": [
+      "どんなひとと、うまくやれますか？ にがてなタイプはありますか？",
+      "どんなひとがすきですか？ どんなひとがにがてですか？",
+      "なかよくなりやすいひとと、なりにくいひとを、おしえてください。"
+    ],
+    "025": [
+      "じんせいで、いちばんだいじなことはなんですか？",
+      "いつも、たいせつにしていることはありますか？",
+      "あなたにとって、いちばんたいせつなものはなんですか？"
+    ],
+    "027": [
+      "これまでで、いちばんうれしかったけいけんをおしえてください。",
+      "なにか、とてもうれしかったことはありますか？",
+      "いちばんしあわせだったのは、どんなときですか？"
+    ],
+    "029": [
+      "とくいなことを、ちょっとやってみてもらえますか？",
+      "ここで、なにかとくいなことをしてみてください。",
+      "じぶんのとくいなことを、ここでみせてください。"
+    ],
+    "030": [
+      "なにがとくいですか？",
+      "あなたのとくいなことを、おしえてください。",
+      "じしんがあることは、なんですか？"
+    ],
+    "031": [
+      "なにがにがてですか？",
+      "あまりとくいじゃないことは、ありますか？",
+      "じぶんのにがてなことを、おしえてください。"
+    ],
+    "032": [
+      "かぞくで、いちばんそんけいしているひとはだれですか？",
+      "かぞくのなかで、あこがれているひとはいますか？",
+      "かぞくのだれを、いちばんそんけいしていますか？"
+    ],
+    "033": [
+      "かぞくについて、おしえてください。",
+      "なんにんかぞくですか？",
+      "かぞくは、どんなひとたちですか？"
+    ],
+    "034": [
+      "なんにんきょうだいですか？",
+      "きょうだいは、いますか？ なんにんですか？",
+      "きょうだいのにんずうを、おしえてください。"
+    ],
+    "035": [
+      "りょうしんは、にほんにいくことに、さんせいしていますか？",
+      "かぞくは、にほんではたらくことを、どうおもっていますか？",
+      "にほんにいくことを、りょうしんにはなしましたか？ なんていわれましたか？"
+    ],
+    "036": [
+      "つきあっているひとは、いますか？",
+      "かれしや、かのじょはいますか？",
+      "こいびとは、いるんですか？"
+    ],
+    "037": [
+      "かぞくを、にほんによびたいですか？",
+      "しょうらい、かぞくといっしょに、にほんでくらしたいですか？",
+      "にほんに、かぞくをつれてきたいとおもいますか？"
+    ],
+    "038": [
+      "にほんに、しっているひとはいますか？",
+      "にほんで、はたらいているともだちはいますか？",
+      "しんせきやともだちが、にほんにいますか？"
+    ],
+    "039": [
+      "やすみのひは、なにをしてすごしますか？",
+      "しゅうまつは、いつもなにをしていますか？",
+      "しごとがないひは、どうすごしていますか？"
+    ],
+    "041": [
+      "そのスポーツは、いまもつづけていますか？",
+      "いまも、そのスポーツをしていますか？ しゅうになんかいですか？",
+      "そのスポーツ、さいきんもやっていますか？ どのくらいのペースですか？"
+    ],
+    "042": [
+      "きょうだいとのかんけいは、どうですか？",
+      "きょうだいとは、なかよしですか？",
+      "きょうだいとは、よくはなしますか？"
+    ],
+    "043": [
+      "いつごろ、けっこんしたいですか？",
+      "けっこんのよていはありますか？",
+      "なんさいくらいで、けっこんしたいですか？"
+    ],
+    "045": [
+      "こうこうでは、なにをせんこうしていましたか？",
+      "こうこうは、なにかですか？",
+      "がっこうで、どんなべんきょうをしましたか？"
+    ],
+    "046": [
+      "こうこうで、なんのじゅぎょうがすきでしたか？",
+      "いちばんすきだったかもくは、なんですか？",
+      "がっこうでは、どのべんきょうがおもしろかったですか？"
+    ],
+    "047": [
+      "こうこうのとき、クラブかつどうはしていましたか？",
+      "がっこうで、なにかぶかつにはいっていましたか？",
+      "じゅぎょうのあと、なにかかつどうをしていましたか？"
+    ],
+    "048": [
+      "これまでのしごとのけいけんを、おしえてください。",
+      "はたらいたことはありますか？ どんなしごとですか？",
+      "しょくれきを、おしえてください。"
+    ],
+    "049": [
+      "そのしごとでは、どんなことをしていましたか？",
+      "まえのしごとのないようを、くわしくおしえてください。",
+      "どのしごとで、なにをたんとうしていましたか？"
+    ],
+    "050": [
+      "しごとで、くろうしたことはありますか？",
+      "まえのしごとで、たいへんだったことをおしえてください。",
+      "はたらいていて、いちばんつらかったのはどんなときですか？"
+    ],
+    "051": [
+      "しごとをしていないきかんがありますね。なにをしていましたか？",
+      "まえのしごとをやめてから、なにをしていましたか？",
+      "このあいだは、なにをしていたんですか？"
+    ],
+    "052": [
+      "ひとりですんだことはありますか？",
+      "いえをでて、くらしたことはありますか？",
+      "かぞくとはなれて、せいかつしたことはありますか？"
+    ],
+    "053": [
+      "めんせつは、これでなんかいめですか？",
+      "まえにも、めんせつをうけたことがありますか？ どんなしごとでしたか？",
+      "いままでうけためんせつのかいすうと、しごとのしゅるいをおしえてください。"
+    ],
+    "054": [
+      "はたらくとき、なにがいちばんだいじですか？",
+      "しごとをするうえで、たいせつにしたいことはなんですか？",
+      "いいしごとをするために、なにがひつようだとおもいますか？"
+    ],
+    "058": [
+      "ほかのひとと、かんがえがちがうときは、どうしますか？",
+      "どうりょうと、いけんがあわなかったら、どうしますか？",
+      "じぶんとちがういけんがでたら、どうしますか？"
+    ],
+    "059": [
+      "ストレスは、どうやってかいしょうしますか？",
+      "つかれたときや、イライラしたときは、どうしますか？",
+      "きもちをリフレッシュするほうほうは、ありますか？"
+    ],
+    "061": [
+      "ざんぎょうは、できますか？",
+      "いそがしいときは、ざんぎょうがありますが、いいですか？",
+      "なつは、しごとのじかんがながくなることがあります。だいじょうぶですか？"
+    ],
+    "062": [
+      "どようびも、はたらけますか？",
+      "やすみのひに、しごとがはいったら、だいじょうぶですか？",
+      "どようびに、しゅっきんできますか？"
+    ],
+    "063": [
+      "しごとをしたくないときは、どうしますか？",
+      "やるきがなくなったら、どうしますか？",
+      "がんばれないひは、どうやってきもちをきりかえますか？"
+    ],
+    "065": [
+      "なんにんでくらしましたか？ どのくらいのきかんですか？",
+      "そのときは、なんにんといっしょでしたか？ どれくらいすみましたか？",
+      "いっしょにくらしたひとのかずと、きかんをおしえてください。"
+    ],
+    "069": [
+      "ルームメイトとなかよくするために、なにをしますか？",
+      "きょうどうせいかつで、きをつけることはなんですか？",
+      "いっしょにすむひとと、いいかんけいをつくるには、どうしますか？"
+    ],
+    "070": [
+      "にほんについて、なにをしっていますか？",
+      "にほんのことを、なにかしっていますか？",
+      "にほんについて、しっていることをはなしてください。"
+    ],
+    "071": [
+      "にほんのイメージは、どうですか？",
+      "にほんに、どんなイメージをもっていますか？",
+      "にほんは、どんなところだとおもいますか？"
+    ],
+    "072": [
+      "にほんは、なにいろのイメージですか？ りゆうもおしえてください。",
+      "にほんをいろでいうと、なにいろですか？ どうしてですか？",
+      "もしにほんがいろだったら、なにいろだとおもいますか？ なぜですか？"
+    ],
+    "073": [
+      "はたらくけんのことを、しらべましたか？",
+      "しごとをするけんは、どんなところかしっていますか？",
+      "これからすむけんについて、なにかしっていることはありますか？"
+    ],
+    "074": [
+      "にほんで、どこにいきたいですか？",
+      "にほんで、いちどいってみたいばしょはどこですか？",
+      "やすみのひに、にほんのどこにいきたいですか？"
+    ],
+    "075": [
+      "にほんのりょうりを、たべたことはありますか？ どうでしたか？",
+      "にほんのたべものは、すきですか？",
+      "にほんりょうりについて、どうおもいますか？"
+    ],
+    "076": [
+      "インドネシアのりょうりで、なにがおすすめですか？",
+      "わたしにたべてほしいインドネシアりょうりは、ありますか？",
+      "インドネシアのおいしいたべものを、おしえてください。"
+    ],
+    "077": [
+      "インドネシアで、どこにいったらいいですか？",
+      "インドネシアのおすすめのかんこうちを、おしえてください。",
+      "インドネシアにいくなら、どこがいいですか？"
+    ],
+    "078": [
+      "にほんで、ためしてみたいことはありますか？",
+      "にほんにいったら、なにをしてみたいですか？",
+      "しごといがいで、にほんでやりたいことはありますか？"
+    ],
+    "079": [
+      "にほんで、なにをたべてみたいですか？",
+      "たべてみたいにほんりょうりは、ありますか？",
+      "にほんにいったら、なにがたべたいですか？"
+    ],
+    "080": [
+      "にほんごのべんきょうは、どのくらいしていますか？",
+      "いつから、にほんごをべんきょうしていますか？",
+      "にほんごをならって、どのくらいになりますか？"
+    ],
+    "081": [
+      "じしゅうは、どのくらいしていますか？",
+      "うちでも、にほんごをべんきょうしていますか？ どのくらいですか？",
+      "クラスいがいで、どんなべんきょうをしていますか？"
+    ],
+    "082": [
+      "JFTやJLPTは、うけましたか？ けっかはどうでしたか？",
+      "にほんごのしけんに、ごうかくしましたか？ なんてんでしたか？",
+      "にほんごのしけんのけっかを、おしえてください。"
+    ],
+    "083": [
+      "にほんで、JLPTはなんきゅうをめざしますか？",
+      "にほんにいってからも、にほんごのべんきょうをつづけますか？ どのレベルまでですか？",
+      "JLPTは、どこまでとりたいですか？"
+    ],
+    "084": [
+      "３ねんで、JLPTのなんきゅうをとりたいですか？",
+      "３ねんごの、にほんごのもくひょうはなんですか？",
+      "にほんにいるあいだに、Nいくつにごうかくしたいですか？"
+    ],
+    "085": [
+      "きょうかしょは、どこまですすみましたか？",
+      "いま、なんかをべんきょうしていますか？",
+      "いまのきょうざいは、どこまでやりましたか？"
+    ],
+    "088": [
+      "たべものや、くすりのアレルギーはありますか？",
+      "アレルギーがでるものは、ありますか？",
+      "なにかアレルギーをもっていますか？"
+    ],
+    "089": [
+      "うでたてふせは、なんかいできますか？ ふっきんは？",
+      "うでたてふせと、ふっきんのかいすうを、おしえてください。",
+      "うでたてふせと、ふっきんは、どのくらいできますか？"
+    ],
+    "090": [
+      "じつぎテストは、どうでしたか？ なんてんくらいですか？",
+      "いまのテストに、じぶんでてんすうをつけると、なんてんですか？",
+      "さっきのテストのできは、１００てんちゅう、なんてんですか？"
+    ],
+    "091": [
+      "じつぎテストで、むずかしかったところはどこですか？",
+      "さっきのテストで、なにがいちばんたいへんでしたか？",
+      "じつぎテストで、うまくできなかったことはありますか？"
+    ],
+    "094": [
+      "たべられないものはありますか？",
+      "きらいなたべものは、なんですか？",
+      "あまりすきじゃないたべものは、ありますか？"
+    ],
+    "096": [
+      "しごとがいそがしくて、だんじきがたいへんなときは、どうしますか？",
+      "だんじきちゅうに、しごとがつらいときは、どうしますか？",
+      "あついひのしごとで、だんじきがむりなときは、どうしますか？"
+    ],
+    "098": [
+      "せんぱいに、おさけのせきにさそわれたら、いきますか？",
+      "しごとのあと、のみかいにさそわれたら、どうしますか？",
+      "かいしゃののみかいには、さんかできますか？"
+    ],
+    "100": [
+      "にほんのたばこのルールは、しっていますか？ まもれますか？",
+      "にほんでは、すっていいばしょがきまっています。だいじょうぶですか？",
+      "きめられたばしょいがいで、たばこをすわないことを、まもれますか？"
+    ],
+    "102": [
+      "にほんのなつは、あついです。たえられますか？",
+      "あついなかでのしごとは、だいじょうぶですか？",
+      "なつは４０どちかくになることもあります。だいじょうぶですか？"
+    ],
+    "103": [
+      "たかいところでの、しごとのけいけんはありますか？",
+      "たかいところで、さぎょうしたことがありますか？",
+      "こうしょさぎょうのけいけんはありますか？"
+    ],
+    "104": [
+      "たかいところでのしごとがありますが、こわくないですか？",
+      "４メートルいじょうのたかさで、さぎょうできますか？",
+      "たかいところは、へいきですか？"
+    ],
+    "105": [
+      "ぶたにくをあつかうしごとですが、できますか？",
+      "てぶくろをして、ぶたにくのせいひんをさわれますか？",
+      "ぶたにくがはいったしょくひんを、つくるしごとは、だいじょうぶですか？"
+    ],
+    "106": [
+      "アルコールで、しょうどくしたことはありますか？",
+      "アルコールのしょうどくえきは、つかえますか？",
+      "てやどうぐを、アルコールでしょうどくしたけいけんはありますか？"
+    ],
+    "107": [
+      "えいごは、はなせますか？",
+      "えいごは、どのくらいできますか？",
+      "えいごで、かんたんなかいわはできますか？"
+    ],
+    "108": [
+      "このしごとは、どんなしごとだとおもいますか？",
+      "このしごとについて、どうおもいますか？",
+      "このしごとは、どんなかんじだとおもいますか？"
+    ],
+    "109": [
+      "のうぎょうを、したことはありますか？",
+      "はたけやたんぼで、はたらいたことはありますか？",
+      "やさいやこめを、つくったことはありますか？"
+    ],
+    "110": [
+      "どんなしごとか、しらべましたか？",
+      "このしごとで、なにをするかわかりますか？",
+      "このしごとについて、せつめいしてください。"
+    ],
+    "111": [
+      "おもいものを、はこんだことはありますか？ どのくらいのおもさですか？",
+      "なんキロくらいまで、もてますか？",
+      "おもいにもつをもつしごとを、したことはありますか？ なんキロですか？"
+    ],
+    "112": [
+      "あんぜんにはたらくために、なにがだいじですか？",
+      "けがをしないために、なにをしますか？",
+      "げんばのあんぜんで、たいせつなことはなんですか？"
+    ],
+    "113": [
+      "にほんで、とりたいしかくはありますか？",
+      "しごとのしかくを、とりたいですか？ なんのしかくですか？",
+      "にほんにいるあいだに、どんなしかくにチャレンジしたいですか？"
+    ],
+    "114": [
+      "ながいじかん、たってしごとができますか？",
+      "たったまま、おなじしごとをくりかえすのは、へいきですか？",
+      "いちにちじゅうたって、おなじさぎょうをしますが、できますか？"
+    ],
+    "115": [
+      "せいけつにするために、どんなことにきをつけますか？",
+      "しょくひんをあつかうとき、なにをきれいにしますか？",
+      "えいせいのために、なにをしますか？"
+    ],
+    "116": [
+      "そうじはすきですか？",
+      "そうじは、じょうずにできますか？",
+      "いえで、よくそうじをしますか？"
+    ],
+    "117": [
+      "えがおで、あいさつができますか？",
+      "おきゃくさまに、げんきにあいさつできますか？",
+      "ここで、おきゃくさんへのあいさつを、やってみてください。"
+    ],
+    "118": [
+      "このしごとと、おなじようなしごとを、したことがありますか？",
+      "このしごとに、やくだつけいけんはありますか？",
+      "にたしごとのけいけんがあれば、おしえてください。"
+    ],
+    "119": [
+      "そとでさぎょうするしごとは、できますか？",
+      "あついひも、さむいひも、そとではたらけますか？",
+      "おくがいのしごとですが、だいじょうぶですか？"
+    ],
+    "120": [
+      "まちからとおいところでも、だいじょうぶですか？",
+      "ちかくにおみせがすくないですが、だいじょうぶですか？",
+      "しずかないなかで、くらせますか？"
+    ],
+    "121": [
+      "どうぶつをかったことは、ありますか？ やさいをそだてたことは？",
+      "どうぶつやしょくぶつを、そだてたけいけんはありますか？",
+      "いえで、どうぶつやはなのせわをしていましたか？"
     ]
   },
 
@@ -696,6 +1127,311 @@ window.QUESTION_DATA = {
     "087": [
       ["しょうじきに こたえる。かくさない", "Jawab dengan jujur. Jangan menyembunyikan."],
       ["いまは げんきなら、それも つたえる", "Kalau sekarang sudah sehat, sampaikan juga."]
+    ],
+    // ---- 2026-11-17 追加（すべての質問に こたえかたのポイント） ----
+    "001": [
+      ["にほんを えらんだ りゆうと、にほんで したい ことを つなげる", "Hubungkan alasan memilih Jepang dengan hal yang ingin dilakukan di Jepang."],
+      ["れい：にほんの ぎじゅつを まなびたいです。かえったら、それを いかしたいです。", "Contoh: Saya ingin belajar teknologi Jepang. Setelah pulang, saya ingin memanfaatkannya."]
+    ],
+    "002": [
+      ["ほかの くにと くらべて、にほんの いい ところを １つ", "Bandingkan dengan negara lain, lalu sebutkan satu kelebihan Jepang."],
+      ["れい：にほんは あんぜんで、みんなが ルールを まもる くにだからです。", "Contoh: Karena Jepang aman dan semua orang menaati aturan."]
+    ],
+    "003": [
+      ["しごとに きょうみを もった きっかけを みじかく", "Sebutkan singkat awal mula Anda tertarik dengan pekerjaan ini."],
+      ["れい：ちちが だいくなので、ちいさい ときから けんせつに きょうみが ありました。", "Contoh: Ayah saya tukang kayu, jadi sejak kecil saya tertarik dengan konstruksi."]
+    ],
+    "004": [
+      ["かいしゃの しごとや ばしょで、きょうみを もった ことを １つ", "Sebutkan satu hal tentang pekerjaan atau lokasi perusahaan yang menarik bagi Anda."],
+      ["「きゅうりょうが たかいから」だけで おわらない", "Jangan hanya menjawab \"karena gajinya tinggi\"."]
+    ],
+    "005": [
+      ["しって いる しごとの ないようを １つか ２つ いう", "Sebutkan satu atau dua tugas yang Anda ketahui."],
+      ["よく わからない ときは「〜と ききました。もっと しりたいです」", "Kalau kurang tahu: \"... to kikimashita. Motto shiritai desu.\""]
+    ],
+    "006": [
+      ["まなびたい ことを ぐたいてきに １つ", "Sebutkan satu hal konkret yang ingin dipelajari."],
+      ["れい：しごとの ぎじゅつと、にほんごを まなびたいです。", "Contoh: Saya ingin belajar keterampilan kerja dan bahasa Jepang."]
+    ],
+    "007": [
+      ["しんぱいな ことを しょうじきに １つ いう", "Sebutkan satu kekhawatiran dengan jujur."],
+      ["そのあと、いま して いる じゅんびを つたえる", "Lalu sampaikan persiapan yang sedang Anda lakukan."]
+    ],
+    "008": [
+      ["しらなければ、しょうじきに「わかりません」でも いい", "Kalau tidak tahu, boleh jujur menjawab \"wakarimasen\"."],
+      ["きゅうりょうより、しごとを がんばる きもちを たす", "Tambahkan semangat untuk bekerja keras, bukan hanya soal gaji."]
+    ],
+    "009": [
+      ["ねんすうを はっきり いって、りゆうを １つ たす", "Sebutkan jumlah tahun dengan jelas dan tambahkan satu alasan."],
+      ["れい：５ねん はたらきたいです。ぎじゅつを しっかり おぼえたいからです。", "Contoh: Saya ingin bekerja 5 tahun, karena ingin benar-benar menguasai keterampilan."]
+    ],
+    "010": [
+      ["はたらきたい きもちを はっきり つたえる", "Sampaikan keinginan bekerja dengan jelas."],
+      ["れい：はい、はたらきたいです。もっと ぎじゅつを みに つけたいです。", "Contoh: Ya, saya ingin. Saya ingin menguasai lebih banyak keterampilan."]
+    ],
+    "011": [
+      ["きんがくと、なにに つかうかを いっしょに", "Sebutkan jumlahnya bersama tujuan penggunaannya."],
+      ["れい：３００まんえん ためて、いえを たてたいです。", "Contoh: Saya ingin menabung 3 juta yen untuk membangun rumah."]
+    ],
+    "012": [
+      ["つかいみちを １つ と、その りゆう", "Satu rencana penggunaan dan alasannya."],
+      ["れい：りょうしんに プレゼントを おくりたいです。", "Contoh: Saya ingin mengirim hadiah untuk orang tua."]
+    ],
+    "013": [
+      ["おくる・おくらない と、その りゆうを いう", "Sebutkan akan mengirim atau tidak, dan alasannya."],
+      ["れい：はい。りょうしんに おれいを したいからです。", "Contoh: Ya. Karena saya ingin membalas jasa orang tua."]
+    ],
+    "014": [
+      ["ゆめを １つ、ぐたいてきに", "Sebutkan satu cita-cita secara konkret."],
+      ["にほんの しごとと つながると、もっと いい", "Lebih baik lagi kalau berhubungan dengan pekerjaan di Jepang."]
+    ],
+    "015": [
+      ["いつごろか と、きっかけを みじかく", "Sebutkan kira-kira kapan dan pemicunya secara singkat."],
+      ["れい：こうこうの ときです。せんせいの はなしを きいて、そう おもいました。", "Contoh: Saat SMA. Setelah mendengar cerita guru, saya berpikir begitu."]
+    ],
+    "016": [
+      ["かえった あとの けいかくを １つ", "Sebutkan satu rencana setelah pulang."],
+      ["にほんで まなんだ ことを どう つかうかも いう", "Sebutkan juga bagaimana memakai yang dipelajari di Jepang."]
+    ],
+    "017": [
+      ["なまえ → しゅっしん → いま して いる こと → ひとこと の じゅんばん", "Urutan: nama → asal → kegiatan sekarang → satu kalimat penutup."],
+      ["さいごは「よろしく おねがいします」で おわる", "Akhiri dengan \"yoroshiku onegaishimasu\"."]
+    ],
+    "018": [
+      ["いい ところを １つ と、それが わかる けいけんを いう", "Sebutkan satu kelebihan dan pengalaman yang menunjukkannya."],
+      ["れい：まじめです。がっこうを いちども やすみませんでした。", "Contoh: Saya rajin. Saya tidak pernah bolos sekolah."]
+    ],
+    "019": [
+      ["いい ところ → なおしたい ところ → なおす ために して いる こと", "Kelebihan → hal yang ingin diperbaiki → usaha untuk memperbaikinya."],
+      ["なおしたい ところは、しごとで おおきな もんだいに ならない ものを えらぶ", "Pilih kekurangan yang tidak menjadi masalah besar dalam pekerjaan."]
+    ],
+    "020": [
+      ["いわれる ことを １つ と、その りゆうを いう", "Sebutkan satu hal yang sering dikatakan dan alasannya."],
+      ["れい：ともだちに「やさしい」と いわれます。よく てつだうからです。", "Contoh: Teman bilang saya \"baik hati\", karena saya sering membantu."]
+    ],
+    "021": [
+      ["せいかくを １つ と、それが わかる れいを いう", "Sebutkan satu sifat dan contohnya."],
+      ["れい：あかるい せいかくです。だれとでも すぐ はなせます。", "Contoh: Saya ceria. Saya bisa cepat mengobrol dengan siapa saja."]
+    ],
+    "022": [
+      ["なりたい ひとの すがたを １つ", "Sebutkan satu gambaran orang yang ingin Anda capai."],
+      ["れい：かぞくを ささえられる ひとに なりたいです。", "Contoh: Saya ingin menjadi orang yang bisa menopang keluarga."]
+    ],
+    "023": [
+      ["だれか と、そんけいする りゆうを １つ", "Siapa orangnya dan satu alasan Anda mengaguminya."],
+      ["れい：ははです。まいにち あさ はやくから はたらいて いるからです。", "Contoh: Ibu saya. Karena setiap hari bekerja sejak pagi."]
+    ],
+    "024": [
+      ["なかよく できる ひと と、にがてな ひと を りょうほう いう", "Sebutkan keduanya: orang yang mudah akrab dan yang sulit dihadapi."],
+      ["にがてな ひとに どう するかも たす", "Tambahkan bagaimana Anda menghadapi orang yang sulit itu."]
+    ],
+    "025": [
+      ["たいせつな こと を １つ と、その りゆう", "Satu hal yang penting dan alasannya."],
+      ["れい：やくそくを まもる ことです。しんらいが たいせつだからです。", "Contoh: Menepati janji. Karena kepercayaan itu penting."]
+    ],
+    "026": [
+      ["なにを、どのくらい がんばったか。けっかも いう", "Apa dan seberapa keras Anda berusaha, serta hasilnya."],
+      ["れい：まいにち ２じかん べんきょうして、JFTに ごうかくしました。", "Contoh: Setiap hari belajar 2 jam dan lulus JFT."]
+    ],
+    "027": [
+      ["いつ・なにが あって うれしかったか", "Kapan dan apa yang membuat Anda senang."],
+      ["れい：JFTに ごうかくした ときです。かぞくも よろこびました。", "Contoh: Saat lulus JFT. Keluarga saya juga senang."]
+    ],
+    "028": [
+      ["たいへんだった こと → じぶんが した こと → まなんだ こと", "Hal yang berat → apa yang Anda lakukan → apa yang Anda pelajari."],
+      ["わるい はなしだけで おわらない", "Jangan berakhir dengan cerita buruk saja."]
+    ],
+    "029": [
+      ["はずかしがらずに、げんきに やってみる", "Jangan malu, tunjukkan dengan semangat."],
+      ["れい：うた・ダンス・ソーラン・からて など。みじかくて いい", "Contoh: lagu, tarian, Soran, karate, dll. Singkat saja."]
+    ],
+    "030": [
+      ["とくいな こと を １つ と、しごとに どう いかせるか", "Satu keahlian dan bagaimana memakainya di pekerjaan."],
+      ["れい：サッカーが とくいです。チームワークを たいせつに します。", "Contoh: Saya pandai sepak bola. Saya menghargai kerja sama tim."]
+    ],
+    "031": [
+      ["にがてな こと と、がんばって いる こと を セットで", "Sebutkan kelemahan bersama usaha Anda untuk memperbaikinya."],
+      ["れい：かんじが にがてです。まいにち ５こ おぼえて います。", "Contoh: Saya lemah di kanji. Setiap hari saya menghafal 5 kanji."]
+    ],
+    "032": [
+      ["だれか と、そんけいする りゆうを １つ", "Siapa orangnya dan satu alasan Anda mengaguminya."],
+      ["れい：ちちです。かぞくの ために まいにち はたらいて いるからです。", "Contoh: Ayah saya. Karena bekerja setiap hari untuk keluarga."]
+    ],
+    "033": [
+      ["なんにん かぞくか と、だれが いるか", "Berapa orang dalam keluarga dan siapa saja."],
+      ["れい：５にん かぞくです。ちち、はは、あに、いもうと と わたしです。", "Contoh: Keluarga saya 5 orang: ayah, ibu, kakak laki-laki, adik perempuan, dan saya."]
+    ],
+    "034": [
+      ["にんずう と、じぶんが なんばんめか", "Jumlahnya dan Anda anak ke berapa."],
+      ["れい：３にん きょうだいです。わたしは いちばん うえです。", "Contoh: Kami 3 bersaudara. Saya yang paling tua."]
+    ],
+    "035": [
+      ["りょうしんの きもちを、そのまま つたえる", "Sampaikan perasaan orang tua apa adanya."],
+      ["れい：さんせいして います。「がんばって」と いって います。", "Contoh: Mereka setuju. Mereka bilang \"semangat\"."]
+    ],
+    "036": [
+      ["みじかく、しょうじきに こたえる", "Jawab singkat dan jujur."],
+      ["れい：いいえ、いません。いまは しごとを がんばりたいです。", "Contoh: Tidak ada. Sekarang saya ingin fokus bekerja."]
+    ],
+    "037": [
+      ["しょうじきに こたえる", "Jawab dengan jujur."],
+      ["いまは しごとに しゅうちゅう したい きもちも つたえると いい", "Baik juga menyampaikan bahwa sekarang Anda ingin fokus bekerja."]
+    ],
+    "038": [
+      ["いれば、だれが どこに いるか", "Kalau ada, siapa dan di mana."],
+      ["れい：はい。いとこが おおさかで はたらいて います。", "Contoh: Ya. Sepupu saya bekerja di Osaka."]
+    ],
+    "039": [
+      ["して いる ことを １〜２つ、ぐたいてきに", "Sebutkan satu atau dua kegiatan secara konkret."],
+      ["れい：にほんごを べんきょうしたり、サッカーを したり して います。", "Contoh: Saya belajar bahasa Jepang dan bermain sepak bola."]
+    ],
+    "040": [
+      ["しゅみ と スポーツを １つずつ", "Sebutkan satu hobi dan satu olahraga."],
+      ["れい：しゅみは りょうりです。バドミントンも すきです。", "Contoh: Hobi saya memasak. Saya juga suka bulu tangkis."]
+    ],
+    "041": [
+      ["いまも して いるか と、かいすう・じかんを いう", "Masih melakukan atau tidak, serta frekuensi dan waktunya."],
+      ["れい：はい。しゅうに ２かい、１じかん くらい して います。", "Contoh: Ya. Seminggu 2 kali, sekitar 1 jam."]
+    ],
+    "042": [
+      ["なかが いい ことを、れいと いっしょに", "Sampaikan hubungan yang baik bersama contohnya."],
+      ["れい：はい。いもうとに よく にほんごを おしえて います。", "Contoh: Ya. Saya sering mengajari adik bahasa Jepang."]
+    ],
+    "043": [
+      ["みじかく こたえる。しごとを がんばる きもちも たす", "Jawab singkat. Tambahkan semangat bekerja."],
+      ["れい：３０さい くらいです。いまは しごとを がんばりたいです。", "Contoh: Sekitar umur 30. Sekarang saya ingin bekerja keras dulu."]
+    ],
+    "046": [
+      ["すきな きょうか と、すきな りゆう", "Pelajaran favorit dan alasannya."],
+      ["れい：すうがくです。こたえが はっきり でるからです。", "Contoh: Matematika. Karena jawabannya jelas."]
+    ],
+    "047": [
+      ["なにを して いたか と、まなんだ こと", "Apa yang Anda ikuti dan apa yang dipelajari."],
+      ["れい：バレーボールぶ でした。チームワークを まなびました。", "Contoh: Klub voli. Saya belajar kerja sama tim."]
+    ],
+    "050": [
+      ["たいへんだった こと と、どう のりこえたか", "Hal yang berat dan cara mengatasinya."],
+      ["れい：あさ ４じから はたらきました。はやく ねて、がんばりました。", "Contoh: Saya bekerja mulai jam 4 pagi. Saya tidur cepat dan bertahan."]
+    ],
+    "052": [
+      ["あれば、いつ・どのくらい", "Kalau pernah, kapan dan berapa lama."],
+      ["なければ「ありません。でも、LPKで みんなと くらして います」など", "Kalau belum: \"Arimasen. Demo, LPK de minna to kurashite imasu\", dll."]
+    ],
+    "053": [
+      ["かいすう と しごとの しゅるいを みじかく", "Sebutkan jumlah dan jenis pekerjaan secara singkat."],
+      ["おちた ことが あっても、しょうじきに いう", "Walaupun pernah gagal, sampaikan dengan jujur."]
+    ],
+    "054": [
+      ["たいせつな こと を １つ と りゆう", "Satu hal penting dan alasannya."],
+      ["れい：じかんを まもる ことです。みんなに めいわくを かけない ためです。", "Contoh: Tepat waktu. Supaya tidak merepotkan orang lain."]
+    ],
+    "055": [
+      ["まず「ほうこく」を いう。かくさない", "Pertama sebutkan \"melapor\". Jangan menyembunyikan."],
+      ["れい：すぐ じょうしに ほうこくして、あやまります。", "Contoh: Saya langsung melapor kepada atasan dan minta maaf."]
+    ],
+    "057": [
+      ["たいせつな こと を １つ と りゆう", "Satu hal penting dan alasannya."],
+      ["れい：ほうれんそう です。みんなが おなじ じょうほうを もてるからです。", "Contoh: Hou-ren-sou (lapor, kabari, konsultasi). Supaya semua punya informasi yang sama."]
+    ],
+    "058": [
+      ["あいての はなしを きく → じぶんの いけんを いう の じゅんばん", "Urutan: dengarkan pihak lain → sampaikan pendapat sendiri."],
+      ["れい：まず あいての はなしを ききます。それから はなしあいます。", "Contoh: Pertama saya mendengarkan dia. Lalu kami berdiskusi."]
+    ],
+    "059": [
+      ["じぶんの ほうほうを １つ、ぐたいてきに", "Sebutkan satu cara Anda sendiri secara konkret."],
+      ["れい：おんがくを きいたり、かぞくと でんわ したり します。", "Contoh: Mendengarkan musik atau menelepon keluarga."]
+    ],
+    "065": [
+      ["にんずう と きかんを はっきり", "Sebutkan jumlah orang dan lamanya dengan jelas."],
+      ["れい：６にんで、２ねん くらい いっしょに くらしました。", "Contoh: Kami tinggal bersama 6 orang selama sekitar 2 tahun."]
+    ],
+    "066": [
+      ["たいへんだった こと と、どう したか", "Hal yang sulit dan apa yang Anda lakukan."],
+      ["れい：そうじの じゅんばんで もめました。はなしあって、ルールを きめました。", "Contoh: Kami berselisih soal giliran bersih-bersih. Kami berdiskusi dan membuat aturan."]
+    ],
+    "069": [
+      ["じぶんが する ことを ぐたいてきに", "Sebutkan secara konkret apa yang akan Anda lakukan."],
+      ["れい：あいさつを します。ルールを まもって、そうじも します。", "Contoh: Saya menyapa, menaati aturan, dan ikut bersih-bersih."]
+    ],
+    "070": [
+      ["しって いる ことを １〜２つ いう", "Sebutkan satu atau dua hal yang Anda ketahui."],
+      ["れい：しゅとは とうきょうです。でんしゃが じかんどおりに きます。", "Contoh: Ibu kotanya Tokyo. Keretanya datang tepat waktu."]
+    ],
+    "071": [
+      ["イメージを １つ と、その りゆう", "Satu kesan dan alasannya."],
+      ["れい：きれいな くにです。みちに ゴミが ないと ききました。", "Contoh: Negara yang bersih. Saya dengar tidak ada sampah di jalan."]
+    ],
+    "072": [
+      ["いろ と りゆうを セットで", "Sebutkan warna bersama alasannya."],
+      ["れい：しろです。きれいで、まじめな イメージだからです。", "Contoh: Putih. Karena kesannya bersih dan serius."]
+    ],
+    "073": [
+      ["しらべた ことを １つ いう（めいぶつ・てんき など）", "Sebutkan satu hal yang Anda cari tahu (makanan khas, cuaca, dll.)."],
+      ["しらなければ「これから しらべます」", "Kalau belum tahu: \"Korekara shirabemasu\"."]
+    ],
+    "074": [
+      ["ばしょ と、いきたい りゆう", "Nama tempat dan alasan ingin ke sana."],
+      ["れい：ふじさんです。じぶんの めで みたいからです。", "Contoh: Gunung Fuji. Karena ingin melihatnya langsung."]
+    ],
+    "075": [
+      ["すき・きらい と、たべた ものを いう", "Sebutkan suka atau tidak, dan apa yang pernah dimakan."],
+      ["れい：すきです。インドネシアで ラーメンを たべました。おいしかったです。", "Contoh: Suka. Saya pernah makan ramen di Indonesia. Enak."]
+    ],
+    "076": [
+      ["りょうりの なまえ と、どんな あじか", "Nama makanan dan rasanya seperti apa."],
+      ["れい：ルンダンです。ぎゅうにくの りょうりで、すこし からいです。", "Contoh: Rendang. Masakan daging sapi, agak pedas."]
+    ],
+    "078": [
+      ["やりたい こと を １つ と りゆう", "Satu hal yang ingin dicoba dan alasannya."],
+      ["れい：おまつりに いきたいです。にほんの ぶんかを しりたいからです。", "Contoh: Saya ingin pergi ke festival, karena ingin mengenal budaya Jepang."]
+    ],
+    "079": [
+      ["たべものの なまえを １つ と、りゆう", "Sebutkan satu nama makanan dan alasannya."],
+      ["れい：すしです。インドネシアで しゃしんを みて、たべたく なりました。", "Contoh: Sushi. Saya melihat fotonya di Indonesia dan jadi ingin mencoba."]
+    ],
+    "080": [
+      ["きかんを はっきり いう", "Sebutkan lamanya dengan jelas."],
+      ["れい：５かげつ べんきょう しました。いまも まいにち べんきょう して います。", "Contoh: Saya sudah belajar 5 bulan. Sekarang pun belajar setiap hari."]
+    ],
+    "082": [
+      ["しけんの なまえ と けっかを はっきり", "Sebutkan nama tes dan hasilnya dengan jelas."],
+      ["まだ なら、つぎの しけんの よていを いう", "Kalau belum, sebutkan rencana tes berikutnya."]
+    ],
+    "085": [
+      ["きょうざいの なまえ と、なんか までか", "Nama buku dan sampai bab berapa."],
+      ["れい：いろどりの しょきゅう１、１０か まで べんきょう しました。", "Contoh: Irodori Shokyuu 1, sudah sampai bab 10."]
+    ],
+    "090": [
+      ["てんすう と、そう おもう りゆう", "Nilainya dan alasan Anda berpikir begitu."],
+      ["れい：７０てん くらいです。さいごが すこし おそかったからです。", "Contoh: Sekitar 70. Karena bagian akhir agak lambat."]
+    ],
+    "091": [
+      ["むずかしかった ところ と、つぎに どう するか", "Bagian yang sulit dan apa yang akan Anda lakukan lain kali."],
+      ["れい：はかる ところでした。もっと れんしゅう します。", "Contoh: Bagian mengukur. Saya akan berlatih lagi."]
+    ],
+    "093": [
+      ["たべものの なまえ と、すきな りゆう", "Nama makanan dan alasan menyukainya."],
+      ["れい：ナシゴレンです。ははが よく つくって くれます。", "Contoh: Nasi goreng. Ibu saya sering membuatkannya."]
+    ],
+    "094": [
+      ["あれば しょうじきに。りゆうも みじかく", "Kalau ada, sampaikan jujur dan alasannya singkat."],
+      ["れい：ぶたにくは たべません。でも、ほかは なんでも たべます。", "Contoh: Saya tidak makan daging babi. Tapi selain itu saya makan apa saja."]
+    ],
+    "096": [
+      ["じぶんの かんがえ と、しごとを ちゃんと する きもちを りょうほう", "Sampaikan pendapat Anda dan juga kesediaan bekerja dengan baik."],
+      ["れい：じょうしに そうだん します。あんぜんに はたらける ように します。", "Contoh: Saya akan berkonsultasi dengan atasan agar bisa bekerja dengan aman."]
+    ],
+    "099": [
+      ["しょうじきに、みじかく こたえる", "Jawab jujur dan singkat."],
+      ["すう ひとは、ルールを まもる ことも つたえる", "Kalau merokok, sampaikan juga bahwa Anda menaati aturan."]
+    ],
+    "100": [
+      ["「まもれます」と はっきり いう", "Jawab \"mamoremasu\" dengan jelas."],
+      ["れい：はい。きめられた ばしょ だけで すいます。", "Contoh: Ya. Saya hanya merokok di tempat yang ditentukan."]
+    ],
+    "101": [
+      ["しつもんを １つ する。きゅうりょうや やすみ だけに しない", "Ajukan satu pertanyaan. Jangan hanya soal gaji atau libur."],
+      ["れい：にゅうしゃ まえに、べんきょう して おく ことは ありますか？", "Contoh: Apakah ada yang sebaiknya saya pelajari sebelum mulai bekerja?"]
     ]
   },
 
