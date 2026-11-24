@@ -166,8 +166,9 @@ h2 span, .label span { display: block; font-size: 13px; font-weight: 400; color:
 .variants ul { margin: 0; padding-left: 0; list-style: none; }
 .variants li { padding: 8px 10px; border-radius: 10px; margin-bottom: 6px; background: var(--bg); font-size: 15px; }
 .variants li.now { background: var(--navy-soft); font-weight: 700; }
-.variants li.now::after { content: " ← いま / tadi"; font-weight: 400; font-size: 12px; color: var(--muted); }
+.variants li.now .vja::after { content: " ← いま / tadi"; font-weight: 400; font-size: 12px; color: var(--muted); }
 .variants .vmean { font-size: 13px; color: var(--muted); margin: 8px 0 0; }
+.variants li .vid { display: block; margin-top: 3px; font-size: 13px; font-weight: 400; color: var(--muted); }
 .variants li.playable { cursor: pointer; }
 .variants li.playable::before { content: "▶ "; color: var(--navy); }
 

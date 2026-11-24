@@ -7,6 +7,7 @@
 
   var DATA = window.QUESTION_DATA;
   var VARIANTS = DATA.variants || {};
+  var VARIANTS_ID = DATA.variantsId || {};   // 言い方ごとの意味（インドネシア語）
   var FLOW = DATA.flow;
   var JOBS = DATA.jobs || [];
   var POINTS = DATA.points || {};
@@ -89,6 +90,11 @@
   }
   // その質問の言い方ぜんぶ（0番 = もとの言い方）
   function allWays(q) { return [q.ja].concat(VARIANTS[q.id] || []); }
+  // 言い方 v の意味。0 はもとの質問の意味、ないときも もとの意味を出す
+  function wayMeaning(q, v) {
+    var list = VARIANTS_ID[q.id] || [];
+    return (v > 0 && list[v - 1]) ? list[v - 1] : q.id_;
+  }
   function randomWay(q) { return Math.floor(Math.random() * allWays(q).length); }
 
   // ---------- 音声 ----------
@@ -504,7 +510,7 @@
     }
     $("qCat").innerHTML = label;
     $("qText").textContent = allWays(q)[it.v];
-    $("qTrans").textContent = q.id_;
+    $("qTrans").textContent = wayMeaning(q, it.v);
     $("qTrans").classList.add("hidden");
 
     // 音声があれば「音声だけ → ヒント1 ひらがな → ヒント2 いみ」
@@ -576,10 +582,10 @@
         "<h2>おなじ いみの ききかた<span>Cara bertanya lain (artinya sama)</span></h2><ul>" +
         ways.map(function (w, i) {
           var cls = (i === it.v ? "now" : "") + (audioSrc(q.id, i) ? " playable" : "");
-          return '<li class="' + cls + '" data-v="' + i + '">' + esc(w) + "</li>";
-        }).join("") +
-        '</ul><p class="vmean">いみ / Arti: ' + esc(q.id_) +
-        (ways.some(function (w, i) { return audioSrc(q.id, i); }) ? "<br>▶ をおすと きけます / Ketuk ▶ untuk mendengar" : "") + "</p>";
+          return '<li class="' + cls + '" data-v="' + i + '"><span class="vja">' + esc(w) + "</span>" +
+            '<span class="vid">' + esc(wayMeaning(q, i)) + "</span></li>";
+        }).join("") + "</ul>" +
+        (ways.some(function (w, i) { return audioSrc(q.id, i); }) ? '<p class="vmean">▶ をおすと きけます / Ketuk ▶ untuk mendengar</p>' : "");
       $("variantBox").querySelectorAll("li.playable").forEach(function (li) {
         li.addEventListener("click", function () { playAudio(audioSrc(q.id, Number(li.dataset.v))); });
       });
@@ -711,11 +717,12 @@
     playAudio(audioSrc(it.q.id, it.v));
     state.plays++;
   });
+  // ヒント1：もういちど おすと ひらがなを かくす（ヒント2 と おなじ）
   $("btnHint1").addEventListener("click", function () {
-    $("qText").classList.remove("covered");
-    $("btnHint1").classList.add("hidden");
+    var t = $("qText");
+    t.classList.toggle("covered");
     $("btnTrans").classList.remove("hidden");
-    if (state.hint < 1) state.hint = 1;
+    if (!t.classList.contains("covered") && state.hint < 1) state.hint = 1;
   });
   $("btnAnswered").addEventListener("click", onAnswered);
   $("btnRec").addEventListener("click", startRec);

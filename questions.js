@@ -301,7 +301,15 @@ window.QUESTION_DATA = {
     { id: "118", cat: "c13", ja: "このしごとに、にているけいけんはありますか？", id_: "Apakah Anda punya pengalaman yang mirip dengan pekerjaan ini?" },
     { id: "119", cat: "c13", ja: "そとでのしごとは、だいじょうぶですか？　あついひも、さむいひもあります。", id_: "Apakah Anda tidak masalah bekerja di luar? Ada hari panas dan hari dingin." },
     { id: "120", cat: "c13", ja: "いなかでのせいかつは、だいじょうぶですか？", id_: "Apakah Anda tidak masalah tinggal di pedesaan?" },
-    { id: "121", cat: "c13", ja: "どうぶつやしょくぶつのせわを、したことはありますか？", id_: "Pernahkah Anda merawat hewan atau tanaman?" }
+    { id: "121", cat: "c13", ja: "どうぶつやしょくぶつのせわを、したことはありますか？", id_: "Pernahkah Anda merawat hewan atau tanaman?" },
+    // ---- 自動車整備（2026-11-24 追加。先生の確認待ち） ----
+    { id: "122", cat: "c13", ja: "くるまやバイクのせいびを、したことはありますか？", id_: "Apakah Anda pernah melakukan servis (perawatan) mobil atau motor?" },
+    { id: "123", cat: "c13", ja: "がっこうで、じどうしゃのことを、べんきょうしましたか？", id_: "Apakah Anda pernah belajar tentang otomotif di sekolah?" },
+    { id: "124", cat: "c13", ja: "どんなこうぐを、つかったことがありますか？", id_: "Perkakas apa yang pernah Anda pakai?" },
+    { id: "125", cat: "c13", ja: "くるまのうんてんめんきょは、もっていますか？", id_: "Apakah Anda punya SIM mobil?" },
+    { id: "126", cat: "c13", ja: "てやふくが、あぶらでよごれるしごとですが、だいじょうぶですか？", id_: "Tangan dan baju akan kotor terkena oli. Apakah Anda tidak masalah?" },
+    { id: "127", cat: "c13", ja: "くるまのぶひんのなまえを、にほんごでいくつかいえますか？", id_: "Bisakah Anda menyebutkan beberapa nama komponen mobil dalam bahasa Jepang?" },
+    { id: "128", cat: "c13", ja: "ちいさなミスが、おおきなじこになります。しごとで、なにをきをつけますか？", id_: "Kesalahan kecil bisa menjadi kecelakaan besar. Apa yang akan Anda perhatikan saat bekerja?" }
   ],
 
   // =============================================================
@@ -320,6 +328,8 @@ window.QUESTION_DATA = {
       pool: ["049", "051", "061", "062", "063", "110", "048", "045", "118", "098"] },
     { id: "nougyou",   ja: "のうぎょう",               id_: "Pertanian",
       pool: ["109", "068", "086", "060", "119", "120", "121", "044", "092", "111"] },
+    { id: "jidousha",  ja: "じどうしゃ せいび",          id_: "Perawatan mobil (otomotif)",
+      pool: ["122", "123", "124", "125", "126", "127", "128", "113", "111", "061"] },
     { id: "ippan",     ja: "まだ きまっていない",        id_: "Belum ditentukan (pertanyaan umum)",
       pool: ["086", "060", "061", "062", "102", "111", "056", "110", "098", "087"] }
   ],
@@ -940,6 +950,693 @@ window.QUESTION_DATA = {
       "どうぶつをかったことは、ありますか？ やさいをそだてたことは？",
       "どうぶつやしょくぶつを、そだてたけいけんはありますか？",
       "いえで、どうぶつやはなのせわをしていましたか？"
+    ],
+    "122": [
+      "くるまやバイクを、なおしたことはありますか？",
+      "くるまやバイクの、せいびのけいけんはありますか？",
+      "じぶんのバイクを、じぶんでせいびしたことはありますか？"
+    ],
+    "123": [
+      "がっこうで、じどうしゃを、べんきょうしましたか？",
+      "がっこうで、くるまやバイクのべんきょうをしましたか？",
+      "こうこうは、じどうしゃかですか？"
+    ],
+    "124": [
+      "こうぐをつかったことはありますか？ なんのこうぐですか？",
+      "つかえるこうぐを、おしえてください。",
+      "スパナやドライバーを、つかったことはありますか？"
+    ],
+    "125": [
+      "くるまのうんてんは、できますか？",
+      "うんてんめんきょはありますか？",
+      "くるまか、バイクのめんきょをもっていますか？"
+    ],
+    "126": [
+      "てが、オイルでよごれますが、だいじょうぶですか？",
+      "よごれるしごとは、へいきですか？",
+      "さぎょうぎがオイルでよごれますが、できますか？"
+    ],
+    "127": [
+      "くるまのぶひんのなまえを、にほんごでしっていますか？",
+      "くるまのぶひんを、にほんごでいってみてください。",
+      "にほんごで、どんなくるまのぶひんがいえますか？"
+    ],
+    "128": [
+      "じこがおきないように、しごとでなにをきをつけますか？",
+      "くるまのせいびで、なにがたいせつだとおもいますか？",
+      "おきゃくさまのいのちにかかわるしごとです。なにをきをつけますか？"
+    ]
+  },
+  // =============================================================
+  // 言い方ごとの意味 / Arti tiap cara bertanya
+  //   上の variants と同じ順番で、インドネシア語の意味を書きます。
+  //   「おなじ いみの ききかた」と「ヒント2 いみ」に出ます。
+  //   ない番号・ない行は、もとの質問の意味（id_）が出ます。
+  // =============================================================
+  variantsId: {
+    "100": [
+      "Apakah Anda tahu aturan merokok di Jepang? Bisakah Anda mematuhinya?",
+      "Di Jepang, tempat untuk merokok sudah ditentukan. Apakah Anda tidak masalah?",
+      "Bisakah Anda tidak merokok di luar tempat yang sudah ditentukan?"
+    ],
+    "101": [
+      "Apakah ada yang ingin Anda tanyakan?",
+      "Apakah ada pertanyaan lain?",
+      "Kalau ada yang ingin Anda tanyakan kepada kami, silakan."
+    ],
+    "102": [
+      "Musim panas di Jepang itu panas. Apakah Anda bisa tahan?",
+      "Apakah Anda tidak masalah bekerja di tempat yang panas?",
+      "Di musim panas, suhu kadang hampir 40 derajat. Apakah Anda tidak masalah?"
+    ],
+    "103": [
+      "Apakah Anda punya pengalaman bekerja di tempat tinggi?",
+      "Apakah Anda pernah bekerja di tempat tinggi?",
+      "Apakah Anda punya pengalaman kerja di ketinggian?"
+    ],
+    "104": [
+      "Ada pekerjaan di tempat tinggi. Apakah Anda tidak takut?",
+      "Apakah Anda bisa bekerja di ketinggian lebih dari 4 meter?",
+      "Apakah Anda tidak masalah dengan tempat tinggi?"
+    ],
+    "105": [
+      "Pekerjaan ini menangani daging babi. Apakah Anda bisa?",
+      "Apakah Anda bisa menyentuh produk daging babi dengan sarung tangan?",
+      "Apakah Anda tidak masalah membuat makanan yang berisi daging babi?"
+    ],
+    "106": [
+      "Apakah Anda pernah melakukan disinfeksi dengan alkohol?",
+      "Apakah Anda bisa memakai cairan disinfektan beralkohol?",
+      "Apakah Anda punya pengalaman membersihkan tangan atau alat dengan alkohol?"
+    ],
+    "107": [
+      "Apakah Anda bisa berbicara bahasa Inggris?",
+      "Seberapa bisa bahasa Inggris Anda?",
+      "Apakah Anda bisa percakapan sederhana dalam bahasa Inggris?"
+    ],
+    "108": [
+      "Menurut Anda, pekerjaan ini pekerjaan seperti apa?",
+      "Bagaimana pendapat Anda tentang pekerjaan ini?",
+      "Menurut Anda, pekerjaan ini rasanya seperti apa?"
+    ],
+    "109": [
+      "Apakah Anda pernah bertani?",
+      "Apakah Anda pernah bekerja di ladang atau sawah?",
+      "Apakah Anda pernah menanam sayur atau padi?"
+    ],
+    "110": [
+      "Apakah Anda sudah mencari tahu pekerjaan ini pekerjaan apa?",
+      "Apakah Anda tahu apa yang dilakukan di pekerjaan ini?",
+      "Tolong jelaskan tentang pekerjaan ini."
+    ],
+    "111": [
+      "Apakah Anda pernah membawa barang berat? Seberapa berat?",
+      "Anda bisa mengangkat sampai berapa kilo?",
+      "Apakah Anda pernah bekerja mengangkat barang berat? Berapa kilo?"
+    ],
+    "112": [
+      "Untuk bekerja dengan aman, apa yang penting?",
+      "Apa yang Anda lakukan supaya tidak cedera?",
+      "Apa hal yang penting untuk keselamatan di tempat kerja?"
+    ],
+    "113": [
+      "Apakah ada sertifikat yang ingin Anda dapatkan di Jepang?",
+      "Apakah Anda ingin mendapatkan sertifikat kerja? Sertifikat apa?",
+      "Selama di Jepang, sertifikat apa yang ingin Anda coba dapatkan?"
+    ],
+    "114": [
+      "Apakah Anda bisa bekerja sambil berdiri lama?",
+      "Apakah Anda tidak masalah berdiri sambil mengulang pekerjaan yang sama?",
+      "Anda akan berdiri seharian dan melakukan pekerjaan yang sama. Apakah Anda bisa?"
+    ],
+    "115": [
+      "Untuk menjaga kebersihan, apa saja yang Anda perhatikan?",
+      "Saat menangani makanan, apa yang Anda bersihkan?",
+      "Apa yang Anda lakukan untuk menjaga kebersihan (higiene)?"
+    ],
+    "116": [
+      "Apakah Anda suka bersih-bersih?",
+      "Apakah Anda bisa bersih-bersih dengan baik?",
+      "Apakah Anda sering bersih-bersih di rumah?"
+    ],
+    "117": [
+      "Apakah Anda bisa menyapa dengan senyum?",
+      "Apakah Anda bisa menyapa tamu dengan semangat?",
+      "Coba sekarang praktikkan cara menyapa tamu di sini."
+    ],
+    "118": [
+      "Apakah Anda pernah melakukan pekerjaan yang mirip dengan pekerjaan ini?",
+      "Apakah Anda punya pengalaman yang berguna untuk pekerjaan ini?",
+      "Kalau punya pengalaman kerja yang mirip, tolong ceritakan."
+    ],
+    "119": [
+      "Apakah Anda bisa melakukan pekerjaan di luar ruangan?",
+      "Apakah Anda bisa bekerja di luar, baik di hari panas maupun dingin?",
+      "Ini pekerjaan di luar ruangan. Apakah Anda tidak masalah?"
+    ],
+    "120": [
+      "Apakah Anda tidak masalah tinggal di tempat yang jauh dari kota?",
+      "Di dekat sana hanya ada sedikit toko. Apakah Anda tidak masalah?",
+      "Apakah Anda bisa tinggal di desa yang sepi?"
+    ],
+    "121": [
+      "Apakah Anda pernah memelihara hewan? Pernah menanam sayur?",
+      "Apakah Anda punya pengalaman memelihara hewan atau menanam tanaman?",
+      "Apakah di rumah Anda dulu merawat hewan atau bunga?"
+    ],
+    "017": [
+      "Silakan perkenalkan diri Anda.",
+      "Bisakah Anda memperkenalkan diri secara singkat?",
+      "Baik, pertama, tolong sebutkan nama dan asal Anda.",
+      "Tolong ceritakan sedikit tentang diri Anda."
+    ],
+    "001": [
+      "Kenapa Anda ingin bekerja di Jepang?",
+      "Apa alasan Anda ingin bekerja di Jepang?",
+      "Kenapa Anda berpikir untuk bekerja di Jepang?",
+      "Anda ingin bekerja di Jepang itu karena apa?"
+    ],
+    "002": [
+      "Kenapa Jepang, bukan negara lain?",
+      "Ada Korea dan Taiwan juga. Kenapa Jepang?",
+      "Apa alasan utama Anda memilih Jepang?"
+    ],
+    "003": [
+      "Kenapa Anda memilih pekerjaan ini?",
+      "Apa alasan Anda memilih pekerjaan ini?",
+      "Kenapa Anda tertarik dengan pekerjaan ini?",
+      "Menurut Anda, bagian apa yang bagus dari pekerjaan ini?"
+    ],
+    "004": [
+      "Kenapa Anda melamar ke perusahaan kami?",
+      "Kenapa Anda ingin bekerja di perusahaan ini?",
+      "Ada banyak perusahaan. Kenapa perusahaan kami?"
+    ],
+    "005": [
+      "Apakah Anda tahu isi pekerjaan ini?",
+      "Menurut Anda, pekerjaan ini pekerjaan seperti apa?",
+      "Bisakah Anda menjelaskan apa yang dilakukan di pekerjaan ini?"
+    ],
+    "006": [
+      "Apa yang ingin Anda pelajari di Jepang?",
+      "Dengan bekerja di Jepang, kemampuan apa yang ingin Anda dapatkan?",
+      "Pengalaman seperti apa yang ingin Anda dapatkan di Jepang?"
+    ],
+    "009": [
+      "Berapa lama Anda ingin bekerja di Jepang?",
+      "Berapa tahun Anda berencana tinggal di Jepang?",
+      "Sampai kapan Anda berencana bekerja di Jepang?",
+      "Apakah Anda ingin bekerja lama di Jepang?"
+    ],
+    "010": [
+      "Apakah Anda pulang setelah 3 tahun? Atau ingin bekerja lebih lama?",
+      "Apakah Anda bisa bekerja 5 tahun atau lebih?",
+      "Setelah kontrak selesai, apakah Anda ingin terus bekerja?"
+    ],
+    "011": [
+      "Berapa yang ingin Anda tabung dalam 3 tahun?",
+      "Berapa banyak uang yang Anda rencanakan untuk ditabung di Jepang?",
+      "Berapa target tabungan Anda?"
+    ],
+    "014": [
+      "Apa cita-cita Anda di masa depan?",
+      "Apakah Anda punya cita-cita?",
+      "Menurut Anda, 10 tahun lagi Anda sedang melakukan apa?"
+    ],
+    "015": [
+      "Sejak kapan Anda punya cita-cita itu?",
+      "Kapan Anda mulai berpikir seperti itu?",
+      "Apa yang membuat Anda berpikir seperti itu?"
+    ],
+    "016": [
+      "Setelah pulang ke Indonesia, apa rencana Anda?",
+      "Setelah kembali ke Indonesia, Anda ingin melakukan apa?",
+      "Setelah pekerjaan di Jepang selesai, apa yang akan Anda lakukan?"
+    ],
+    "019": [
+      "Apa kelebihan dan kekurangan Anda?",
+      "Tolong ceritakan kekuatan dan kelemahan Anda.",
+      "Apa sisi baik Anda? Apakah ada sisi buruk Anda?"
+    ],
+    "020": [
+      "Teman-teman bilang Anda orang yang seperti apa?",
+      "Menurut keluarga dan teman, Anda orang yang seperti apa?",
+      "Apakah ada hal yang sering dikatakan orang di sekitar tentang Anda?"
+    ],
+    "026": [
+      "Tolong ceritakan pengalaman yang paling Anda perjuangkan selama ini.",
+      "Apakah ada hal yang pernah Anda kerjakan dengan sungguh-sungguh?",
+      "Sampai sekarang, apa hal yang paling Anda usahakan?"
+    ],
+    "028": [
+      "Sampai sekarang, apa hal yang paling sulit bagi Anda?",
+      "Apakah ada pengalaman yang berat bagi Anda?",
+      "Tolong ceritakan hal yang paling berat sampai sekarang."
+    ],
+    "040": [
+      "Anda suka melakukan apa?",
+      "Apakah Anda melakukan olahraga tertentu?",
+      "Tolong ceritakan hobi Anda."
+    ],
+    "044": [
+      "Apakah Anda bisa membuat makanan sendiri?",
+      "Apakah Anda bisa masak sendiri?",
+      "Apakah Anda pandai memasak?"
+    ],
+    "055": [
+      "Kalau Anda salah saat bekerja, apa yang Anda lakukan?",
+      "Kalau Anda gagal, apa yang Anda lakukan?",
+      "Kalau Anda membuat kesalahan, apa yang pertama Anda lakukan?"
+    ],
+    "056": [
+      "Kalau dimarahi senior, apa yang Anda lakukan?",
+      "Kalau atasan berbicara keras kepada Anda, apa yang Anda lakukan?",
+      "Perusahaan di Jepang itu ketat. Apakah Anda tidak masalah?"
+    ],
+    "057": [
+      "Saat bekerja dalam tim, apa yang penting?",
+      "Supaya akur dengan rekan kerja, apa yang diperlukan?",
+      "Dalam kerja sama tim, apa yang paling penting?"
+    ],
+    "060": [
+      "Apakah Anda kuat bangun pagi?",
+      "Setiap pagi, Anda bangun sekitar jam berapa?",
+      "Kalau kerja mulai jam 6 pagi, apakah Anda tidak masalah?"
+    ],
+    "064": [
+      "Apakah Anda punya pengalaman tinggal bersama orang lain?",
+      "Apakah Anda pernah tinggal bersama orang lain?",
+      "Apakah Anda pernah tinggal bersama teman di asrama atau apartemen?"
+    ],
+    "066": [
+      "Apakah ada hal yang menyulitkan saat tinggal bersama?",
+      "Saat tinggal bersama, masalah apa yang pernah terjadi?",
+      "Apakah Anda pernah kesal saat tinggal bersama orang lain?"
+    ],
+    "067": [
+      "Kalau ada masalah dengan teman sekamar, apa yang Anda lakukan?",
+      "Saat ada masalah, bagaimana Anda menyelesaikannya?",
+      "Kalau bertengkar dengan teman, apa yang Anda lakukan?"
+    ],
+    "068": [
+      "Di Jepang, Anda akan tinggal bersama senior. Apakah Anda tidak masalah?",
+      "Apakah Anda tidak masalah tinggal di asrama?",
+      "Apakah Anda tidak masalah walaupun tidak punya kamar sendiri?"
+    ],
+    "086": [
+      "Apakah badan Anda kuat?",
+      "Pekerjaan ini mengangkat barang berat. Apakah Anda tidak masalah?",
+      "Apakah Anda punya stamina?"
+    ],
+    "087": [
+      "Sampai sekarang, apakah Anda pernah cedera parah?",
+      "Apakah Anda pernah dirawat di rumah sakit?",
+      "Apakah ada yang Anda khawatirkan tentang kesehatan Anda?"
+    ],
+    "092": [
+      "Apakah Anda bisa naik sepeda?",
+      "Apakah Anda pernah naik sepeda?",
+      "Apakah Anda bisa pergi ke kantor dengan sepeda?"
+    ],
+    "093": [
+      "Anda suka makan apa?",
+      "Apa masakan yang paling Anda sukai?",
+      "Tolong sebutkan makanan yang Anda sukai."
+    ],
+    "095": [
+      "Saat bekerja, bagaimana dengan sholat Anda?",
+      "Saat puasa, apakah Anda tetap bisa bekerja?",
+      "Apakah ada yang Anda khawatirkan tentang agama di Jepang?"
+    ],
+    "097": [
+      "Apakah Anda minum alkohol?",
+      "Apakah Anda tidak masalah dengan alkohol?",
+      "Bagaimana pendapat Anda tentang minum alkohol?"
+    ],
+    "099": [
+      "Kalau rokok?",
+      "Apakah Anda pernah merokok?",
+      "Apakah Anda merokok?"
+    ],
+    "007": [
+      "Apakah ada yang Anda khawatirkan tentang kehidupan di Jepang?",
+      "Apakah ada hal yang membuat Anda cemas?",
+      "Saat bekerja di Jepang, hal apa yang mungkin menyulitkan Anda?"
+    ],
+    "008": [
+      "Menurut Anda, gajinya kira-kira berapa?",
+      "Apakah Anda tahu gaji di perusahaan kami?",
+      "Menurut Anda, sebulan bisa dapat berapa?"
+    ],
+    "012": [
+      "Dengan gaji pertama, Anda ingin melakukan apa?",
+      "Gaji pertama akan Anda gunakan untuk apa?",
+      "Setelah menerima gaji, pertama-tama akan Anda pakai untuk apa?"
+    ],
+    "013": [
+      "Apakah Anda akan mengirim uang ke keluarga? Kenapa?",
+      "Apakah Anda berencana mengirim uang ke orang tua? Untuk apa?",
+      "Apakah Anda berpikir untuk mengirim uang? Tolong sebutkan juga alasannya."
+    ],
+    "018": [
+      "Tolong ceritakan kekuatan Anda.",
+      "Tolong ceritakan sisi baik diri Anda.",
+      "Apa sisi baik Anda yang tidak kalah dari orang lain?"
+    ],
+    "021": [
+      "Anda orang yang sifatnya seperti apa?",
+      "Kalau sifat Anda diungkapkan dalam satu kata, apa?",
+      "Menurut Anda, Anda orang yang seperti apa?"
+    ],
+    "022": [
+      "10 tahun lagi, Anda ingin menjadi orang seperti apa?",
+      "Anda ingin menjadi orang dewasa seperti apa?",
+      "Mulai sekarang, Anda ingin menjadi orang seperti apa?"
+    ],
+    "023": [
+      "Apakah ada orang yang Anda hormati? Tolong sebutkan juga alasannya.",
+      "Apakah ada orang yang Anda kagumi? Kenapa?",
+      "Siapa orang yang menjadi teladan Anda? Kenapa?"
+    ],
+    "024": [
+      "Dengan orang seperti apa Anda bisa akur? Apakah ada tipe yang sulit bagi Anda?",
+      "Anda suka orang seperti apa? Orang seperti apa yang sulit bagi Anda?",
+      "Tolong ceritakan orang yang mudah dan sulit untuk akrab dengan Anda."
+    ],
+    "025": [
+      "Apa hal yang paling penting dalam hidup?",
+      "Apakah ada hal yang selalu Anda anggap penting?",
+      "Bagi Anda, apa hal yang paling berharga?"
+    ],
+    "027": [
+      "Tolong ceritakan pengalaman yang paling membuat Anda senang sampai sekarang.",
+      "Apakah ada hal yang sangat membuat Anda senang?",
+      "Kapan Anda merasa paling bahagia?"
+    ],
+    "029": [
+      "Bisakah Anda mencoba sedikit menunjukkan keahlian Anda?",
+      "Coba tunjukkan keahlian Anda di sini.",
+      "Tolong perlihatkan keahlian Anda di sini."
+    ],
+    "030": [
+      "Apa yang Anda kuasai?",
+      "Tolong ceritakan hal yang Anda kuasai.",
+      "Hal apa yang membuat Anda percaya diri?"
+    ],
+    "031": [
+      "Apa yang kurang Anda kuasai?",
+      "Apakah ada hal yang kurang Anda kuasai?",
+      "Tolong ceritakan hal yang sulit bagi Anda."
+    ],
+    "032": [
+      "Di keluarga, siapa yang paling Anda hormati?",
+      "Di antara keluarga, apakah ada orang yang Anda kagumi?",
+      "Siapa anggota keluarga yang paling Anda hormati?"
+    ],
+    "033": [
+      "Tolong ceritakan tentang keluarga Anda.",
+      "Keluarga Anda ada berapa orang?",
+      "Keluarga Anda orang-orang yang seperti apa?"
+    ],
+    "034": [
+      "Anda berapa bersaudara?",
+      "Apakah Anda punya saudara kandung? Berapa orang?",
+      "Tolong sebutkan jumlah saudara kandung Anda."
+    ],
+    "035": [
+      "Apakah orang tua Anda setuju Anda pergi ke Jepang?",
+      "Bagaimana pendapat keluarga tentang Anda bekerja di Jepang?",
+      "Apakah Anda sudah bicara dengan orang tua tentang pergi ke Jepang? Apa kata mereka?"
+    ],
+    "036": [
+      "Apakah ada orang yang sedang berpacaran dengan Anda?",
+      "Apakah Anda punya pacar (laki-laki atau perempuan)?",
+      "Apakah Anda punya kekasih?"
+    ],
+    "037": [
+      "Apakah Anda ingin mengajak keluarga ke Jepang?",
+      "Di masa depan, apakah Anda ingin tinggal bersama keluarga di Jepang?",
+      "Apakah Anda ingin membawa keluarga ke Jepang?"
+    ],
+    "038": [
+      "Apakah ada orang yang Anda kenal di Jepang?",
+      "Apakah Anda punya teman yang bekerja di Jepang?",
+      "Apakah ada saudara atau teman Anda di Jepang?"
+    ],
+    "039": [
+      "Pada hari libur, Anda menghabiskan waktu dengan apa?",
+      "Saat akhir pekan, biasanya Anda melakukan apa?",
+      "Pada hari tidak bekerja, bagaimana Anda menghabiskan waktu?"
+    ],
+    "041": [
+      "Apakah olahraga itu masih Anda lakukan sampai sekarang?",
+      "Apakah sekarang Anda masih melakukan olahraga itu? Berapa kali seminggu?",
+      "Apakah akhir-akhir ini Anda masih melakukan olahraga itu? Seberapa sering?"
+    ],
+    "042": [
+      "Bagaimana hubungan Anda dengan saudara kandung?",
+      "Apakah Anda akrab dengan saudara kandung?",
+      "Apakah Anda sering berbicara dengan saudara kandung?"
+    ],
+    "043": [
+      "Kira-kira kapan Anda ingin menikah?",
+      "Apakah Anda punya rencana menikah?",
+      "Anda ingin menikah sekitar umur berapa?"
+    ],
+    "045": [
+      "Di SMA/SMK, Anda mengambil jurusan apa?",
+      "Anda sekolah di jurusan apa?",
+      "Di sekolah, Anda belajar apa saja?"
+    ],
+    "046": [
+      "Di SMA/SMK, pelajaran apa yang Anda sukai?",
+      "Mata pelajaran apa yang paling Anda sukai?",
+      "Di sekolah, pelajaran apa yang menarik bagi Anda?"
+    ],
+    "047": [
+      "Saat SMA/SMK, apakah Anda ikut kegiatan klub?",
+      "Di sekolah, apakah Anda ikut ekstrakurikuler?",
+      "Setelah jam pelajaran, apakah Anda ikut kegiatan tertentu?"
+    ],
+    "048": [
+      "Tolong ceritakan pengalaman kerja Anda selama ini.",
+      "Apakah Anda pernah bekerja? Pekerjaan apa?",
+      "Tolong ceritakan riwayat kerja Anda."
+    ],
+    "049": [
+      "Di pekerjaan itu, apa saja yang Anda lakukan?",
+      "Tolong ceritakan dengan detail isi pekerjaan Anda sebelumnya.",
+      "Di pekerjaan mana Anda bertugas mengerjakan apa?"
+    ],
+    "050": [
+      "Apakah ada hal yang berat dalam pekerjaan Anda?",
+      "Tolong ceritakan hal yang berat di pekerjaan sebelumnya.",
+      "Saat bekerja, kapan Anda merasa paling berat?"
+    ],
+    "051": [
+      "Ada masa ketika Anda tidak bekerja, ya. Saat itu Anda melakukan apa?",
+      "Setelah berhenti dari pekerjaan sebelumnya, Anda melakukan apa?",
+      "Di masa ini, Anda melakukan apa?"
+    ],
+    "052": [
+      "Apakah Anda pernah tinggal sendiri?",
+      "Apakah Anda pernah tinggal di luar rumah orang tua?",
+      "Apakah Anda pernah hidup terpisah dari keluarga?"
+    ],
+    "053": [
+      "Ini wawancara Anda yang ke berapa?",
+      "Apakah Anda pernah ikut wawancara sebelumnya? Untuk pekerjaan apa?",
+      "Tolong sebutkan berapa kali Anda ikut wawancara dan untuk jenis pekerjaan apa."
+    ],
+    "054": [
+      "Saat bekerja, apa yang paling penting?",
+      "Dalam bekerja, hal apa yang ingin Anda jaga?",
+      "Menurut Anda, untuk bekerja dengan baik, apa yang diperlukan?"
+    ],
+    "058": [
+      "Kalau pendapat Anda berbeda dengan orang lain, apa yang Anda lakukan?",
+      "Kalau pendapat Anda tidak sama dengan rekan kerja, apa yang Anda lakukan?",
+      "Kalau ada pendapat yang berbeda dengan Anda, apa yang Anda lakukan?"
+    ],
+    "059": [
+      "Bagaimana cara Anda menghilangkan stres?",
+      "Saat lelah atau kesal, apa yang Anda lakukan?",
+      "Apakah Anda punya cara untuk menyegarkan pikiran?"
+    ],
+    "061": [
+      "Apakah Anda bisa lembur?",
+      "Saat sibuk ada lembur. Apakah boleh?",
+      "Di musim panas, jam kerja kadang jadi panjang. Apakah Anda tidak masalah?"
+    ],
+    "062": [
+      "Apakah Anda bisa bekerja juga di hari Sabtu?",
+      "Kalau ada pekerjaan di hari libur, apakah Anda tidak masalah?",
+      "Apakah Anda bisa masuk kerja di hari Sabtu?"
+    ],
+    "063": [
+      "Saat Anda tidak ingin bekerja, apa yang Anda lakukan?",
+      "Kalau semangat Anda hilang, apa yang Anda lakukan?",
+      "Pada hari Anda tidak bisa bersemangat, bagaimana cara Anda mengubah perasaan?"
+    ],
+    "065": [
+      "Anda tinggal dengan berapa orang? Berapa lama?",
+      "Saat itu Anda tinggal bersama berapa orang? Berapa lama tinggal di sana?",
+      "Tolong sebutkan jumlah orang yang tinggal bersama Anda dan lamanya."
+    ],
+    "069": [
+      "Supaya akrab dengan teman sekamar, apa yang Anda lakukan?",
+      "Dalam hidup bersama, apa yang Anda perhatikan?",
+      "Supaya punya hubungan baik dengan orang yang tinggal bersama, apa yang Anda lakukan?"
+    ],
+    "070": [
+      "Apa yang Anda ketahui tentang Jepang?",
+      "Apakah Anda tahu sesuatu tentang Jepang?",
+      "Tolong ceritakan hal yang Anda ketahui tentang Jepang."
+    ],
+    "071": [
+      "Bagaimana gambaran Anda tentang Jepang?",
+      "Anda punya gambaran seperti apa tentang Jepang?",
+      "Menurut Anda, Jepang itu tempat seperti apa?"
+    ],
+    "072": [
+      "Jepang itu Anda bayangkan warna apa? Tolong sebutkan juga alasannya.",
+      "Kalau Jepang dikatakan dengan warna, warna apa? Kenapa?",
+      "Seandainya Jepang adalah warna, menurut Anda warna apa? Kenapa?"
+    ],
+    "073": [
+      "Apakah Anda sudah mencari tahu tentang prefektur tempat Anda bekerja?",
+      "Apakah Anda tahu prefektur tempat Anda bekerja itu seperti apa?",
+      "Apakah ada yang Anda ketahui tentang prefektur tempat Anda akan tinggal?"
+    ],
+    "074": [
+      "Di Jepang, Anda ingin pergi ke mana?",
+      "Di Jepang, tempat mana yang ingin Anda kunjungi sekali?",
+      "Pada hari libur, Anda ingin pergi ke mana di Jepang?"
+    ],
+    "075": [
+      "Apakah Anda pernah makan masakan Jepang? Bagaimana rasanya?",
+      "Apakah Anda suka makanan Jepang?",
+      "Bagaimana pendapat Anda tentang masakan Jepang?"
+    ],
+    "076": [
+      "Masakan Indonesia apa yang Anda rekomendasikan?",
+      "Apakah ada masakan Indonesia yang Anda ingin saya coba?",
+      "Tolong ceritakan makanan Indonesia yang enak."
+    ],
+    "077": [
+      "Di Indonesia, sebaiknya pergi ke mana?",
+      "Tolong ceritakan tempat wisata yang Anda rekomendasikan di Indonesia.",
+      "Kalau pergi ke Indonesia, ke mana yang bagus?"
+    ],
+    "078": [
+      "Apakah ada hal yang ingin Anda coba di Jepang?",
+      "Kalau sudah di Jepang, Anda ingin mencoba melakukan apa?",
+      "Selain bekerja, apakah ada yang ingin Anda lakukan di Jepang?"
+    ],
+    "079": [
+      "Di Jepang, Anda ingin mencoba makan apa?",
+      "Apakah ada masakan Jepang yang ingin Anda coba?",
+      "Kalau sudah di Jepang, Anda ingin makan apa?"
+    ],
+    "080": [
+      "Sudah berapa lama Anda belajar bahasa Jepang?",
+      "Sejak kapan Anda belajar bahasa Jepang?",
+      "Sudah berapa lama sejak Anda mulai belajar bahasa Jepang?"
+    ],
+    "081": [
+      "Seberapa banyak Anda belajar sendiri?",
+      "Apakah Anda juga belajar bahasa Jepang di rumah? Seberapa banyak?",
+      "Selain di kelas, Anda belajar apa saja?"
+    ],
+    "082": [
+      "Apakah Anda sudah ikut JFT atau JLPT? Bagaimana hasilnya?",
+      "Apakah Anda sudah lulus tes bahasa Jepang? Berapa nilainya?",
+      "Tolong sebutkan hasil tes bahasa Jepang Anda."
+    ],
+    "083": [
+      "Di Jepang, Anda menargetkan JLPT level berapa?",
+      "Setelah di Jepang, apakah Anda akan terus belajar bahasa Jepang? Sampai level berapa?",
+      "Anda ingin mendapatkan JLPT sampai level berapa?"
+    ],
+    "084": [
+      "Dalam 3 tahun, Anda ingin mendapatkan JLPT level berapa?",
+      "Apa target bahasa Jepang Anda 3 tahun lagi?",
+      "Selama di Jepang, Anda ingin lulus N berapa?"
+    ],
+    "085": [
+      "Buku pelajarannya sudah sampai mana?",
+      "Sekarang Anda sedang belajar bab berapa?",
+      "Buku pelajaran yang sekarang sudah Anda kerjakan sampai mana?"
+    ],
+    "088": [
+      "Apakah Anda punya alergi makanan atau obat?",
+      "Apakah ada sesuatu yang membuat Anda alergi?",
+      "Apakah Anda punya alergi tertentu?"
+    ],
+    "089": [
+      "Push-up bisa berapa kali? Kalau sit-up?",
+      "Tolong sebutkan berapa kali Anda bisa push-up dan sit-up.",
+      "Push-up dan sit-up, kira-kira Anda bisa berapa banyak?"
+    ],
+    "090": [
+      "Bagaimana tes praktiknya? Kira-kira berapa nilainya?",
+      "Kalau Anda sendiri memberi nilai untuk tes tadi, berapa nilainya?",
+      "Hasil tes tadi, dari 100, berapa nilainya?"
+    ],
+    "091": [
+      "Di tes praktik, bagian mana yang sulit?",
+      "Di tes tadi, apa yang paling berat?",
+      "Di tes praktik, apakah ada yang tidak bisa Anda lakukan dengan baik?"
+    ],
+    "094": [
+      "Apakah ada makanan yang tidak bisa Anda makan?",
+      "Makanan apa yang tidak Anda sukai?",
+      "Apakah ada makanan yang kurang Anda sukai?"
+    ],
+    "096": [
+      "Kalau pekerjaan sibuk dan puasa terasa berat, apa yang Anda lakukan?",
+      "Kalau pekerjaan terasa berat saat puasa, apa yang Anda lakukan?",
+      "Kalau bekerja di hari panas dan tidak mungkin berpuasa, apa yang Anda lakukan?"
+    ],
+    "098": [
+      "Kalau diajak senior ke acara minum, apakah Anda ikut?",
+      "Kalau diajak acara minum setelah kerja, apa yang Anda lakukan?",
+      "Apakah Anda bisa ikut acara minum perusahaan?"
+    ],
+    "122": [
+      "Apakah Anda pernah memperbaiki mobil atau motor?",
+      "Apakah Anda punya pengalaman servis mobil atau motor?",
+      "Apakah Anda pernah merawat motor Anda sendiri?"
+    ],
+    "123": [
+      "Apakah Anda belajar otomotif di sekolah?",
+      "Di sekolah, apakah Anda belajar tentang mobil atau motor?",
+      "Apakah Anda dari jurusan otomotif?"
+    ],
+    "124": [
+      "Apakah Anda pernah memakai perkakas? Perkakas apa?",
+      "Tolong sebutkan perkakas yang bisa Anda pakai.",
+      "Apakah Anda pernah memakai kunci pas atau obeng?"
+    ],
+    "125": [
+      "Apakah Anda bisa menyetir mobil?",
+      "Apakah Anda punya SIM?",
+      "Apakah Anda punya SIM mobil atau motor?"
+    ],
+    "126": [
+      "Tangan Anda akan kotor terkena oli. Apakah Anda tidak masalah?",
+      "Apakah Anda tidak masalah dengan pekerjaan yang kotor?",
+      "Baju kerja Anda akan kotor terkena oli. Apakah Anda bisa?"
+    ],
+    "127": [
+      "Apakah Anda tahu nama komponen mobil dalam bahasa Jepang?",
+      "Coba sebutkan nama-nama komponen mobil dalam bahasa Jepang.",
+      "Komponen mobil apa saja yang bisa Anda sebutkan dalam bahasa Jepang?"
+    ],
+    "128": [
+      "Supaya tidak terjadi kecelakaan, apa yang Anda perhatikan dalam pekerjaan?",
+      "Dalam servis kendaraan, menurut Anda apa yang penting?",
+      "Pekerjaan ini menyangkut nyawa pelanggan. Apa yang akan Anda perhatikan?"
     ]
   },
 
@@ -1432,6 +2129,34 @@ window.QUESTION_DATA = {
     "101": [
       ["しつもんを １つ する。きゅうりょうや やすみ だけに しない", "Ajukan satu pertanyaan. Jangan hanya soal gaji atau libur."],
       ["れい：にゅうしゃ まえに、べんきょう して おく ことは ありますか？", "Contoh: Apakah ada yang sebaiknya saya pelajari sebelum mulai bekerja?"]
+    ],
+    "122": [
+      ["あれば、なにを なおしたか を みじかく", "Kalau pernah, sebutkan singkat apa yang Anda perbaiki."],
+      ["れい：はい。じぶんの バイクの オイルこうかんを しました。", "Contoh: Ya. Saya pernah ganti oli motor saya sendiri."]
+    ],
+    "123": [
+      ["がっこうの なまえ より、なにを べんきょうしたか", "Lebih penting apa yang dipelajari daripada nama sekolah."],
+      ["れい：はい。SMKの じどうしゃかで、エンジンの しくみを べんきょうしました。", "Contoh: Ya. Di jurusan otomotif SMK, saya belajar cara kerja mesin."]
+    ],
+    "124": [
+      ["こうぐの なまえを にほんごで ２つ くらい", "Sebutkan sekitar 2 nama perkakas dalam bahasa Jepang."],
+      ["れい：スパナと ドライバーを つかったことが あります。", "Contoh: Saya pernah memakai kunci pas dan obeng."]
+    ],
+    "125": [
+      ["もっている めんきょを はっきり。なければ しょうじきに", "Sebutkan SIM yang dimiliki dengan jelas. Kalau tidak punya, jawab jujur."],
+      ["れい：バイクの めんきょは あります。くるまの めんきょは ありません。", "Contoh: Saya punya SIM motor. SIM mobil belum punya."]
+    ],
+    "126": [
+      ["「だいじょうぶです」に、りゆうを １つ たす", "Tambahkan satu alasan setelah \"daijoubu desu\"."],
+      ["れい：はい、だいじょうぶです。インドネシアでも オイルを さわる しごとを していました。", "Contoh: Ya, tidak masalah. Di Indonesia saya juga pernah bekerja memegang oli."]
+    ],
+    "127": [
+      ["しっている ぶひんの なまえを ２〜３つ いう", "Sebutkan 2–3 nama komponen yang Anda tahu."],
+      ["れい：タイヤ、ブレーキ、エンジン、バッテリーです。", "Contoh: Ban, rem, mesin, aki."]
+    ],
+    "128": [
+      ["「かくにん」と「ほうこく」の ことばを つかう", "Pakai kata \"kakunin\" (memeriksa) dan \"houkoku\" (melapor)."],
+      ["れい：さぎょうの あとで、かならず かくにん します。わからない ときは、すぐ ほうこく します。", "Contoh: Setelah bekerja, saya selalu memeriksa ulang. Kalau tidak tahu, saya langsung melapor."]
     ]
   },
 
